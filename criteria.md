@@ -55,10 +55,10 @@ whether you hit them:
 
 <!-- Your criterion. It must name a number. -->
 
-
+The classifier needs to get at least 85% accuracy for the different lables 
 
 **Why this target:**
-
+My dataset has 200 posts, and the largest label is hot_take at 45%. If the classifere just guessed hot_take every time, it could already get around 45% right. I think 85% is a good goal because it shows the model is actually learning the differences between the labels instead of just guessing the most common one.
 
 
 ---
@@ -66,10 +66,12 @@ whether you hit them:
 ## 2.
 
 <!-- Your criterion. -->
-
+Each label needs to have an F1 score of at least 0.60, except analysis, which needs at least 0.55.
 
 
 **Why this target:**
+
+I have 51 analysis, 89 hot_take, and 60 personal_preference posts. Since analysis has the fewest examples, I'm giving it a slightly lower goal. I don't want the model to get a good overall score just because it's good at predicting hot_take while struggling with the other labels.
 
 
 
@@ -78,11 +80,11 @@ whether you hit them:
 ## 3.
 
 <!-- Your criterion. -->
-
+The model should give the same label at least 90% of the time when a post's capitalization or extra punctuation is changed. I'll test this on the held-out posts across all three seeds.
 
 
 **Why this target:**
-
+A lot of posts in my dataset use capital letters or strong punctuation to make their opinions stand out. I don't want the model to automatically assume something is a hot_take just because someone uses all caps or exclamation points. It should focus on what the person is actually saying rather than how they typed it.
 
 
 ---
@@ -90,11 +92,11 @@ whether you hit them:
 ## 4.
 
 <!-- Your criterion. -->
-
+The model should mix up hot_take and personal_preference no more than 20% of the time on the test data for each seed.
 
 
 **Why this target:**
-
+These were the two hardest labels for me to tell apart when I was labeling the posts. Some people make really strong statements about things they personally like or dislike, which can sound like hot takes. I want to see whether the model can recognize the difference between someone's personal opinion and a broad statement about something being good or bad.
 
 
 ---
@@ -102,10 +104,11 @@ whether you hit them:
 ## 5.
 
 <!-- Your criterion. -->
-
+When the model is at least 75% confident in its prediction, it should be correct at least 85% of the time. It also needs to make at least 10 predictions at that confidence level in each test split.
 
 
 **Why this target:**
+Some posts are pretty obvious, while others could easily fit into two labels. I want the model to be more confident when the answer is clear and less confident when a post is harder to classify. I also don't want it to pass this test just because it was confident about one or two easy posts.
 
 
 

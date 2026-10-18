@@ -42,6 +42,13 @@
 <!-- Your community, and what your classifier sorts posts into. Three or four
      sentences. -->
 
+I decided to use a new discussion board community that is similiar to reddit but has a free API so that I am able to copy the information into the csv file in an easier way. I am going to be using the community /c/unpopularopinion and I will be sorting it by all to get the top 200 posts https://lemmy.world/c/unpopularopinion?dataType=Post&sort=TopAll this is a link to the source for the dataset. This community deals with people posting their opinions that they deem unpopular. So we will classify the types of unpopular opinions that people have. There is no login or private API needed. They have a public API 
+
+Candidate Distinctions
+1. Some posts propose a specific change. For example, "Cooking classes should be mandatory in school" argues for changing school requirements. Others simply express an opinion without asking for action.
+2. Some posts include checkable facts or technical comparisons. "Game price isn't the problem, wages are" refers to 30 years of game prices and inflation. Many other posts offer no numbers or verifiable evidence.
+3. Some posts focus on personal taste or experience. "I like the smell of cigarette smoke" explains the author's childhood association with the smell, whereas other posts make broad claims about society.
+4. Some posts make sweeping judgments without verifiable support. "Tattoos are stupid" makes a general judgment using subjective evaluations rather than facts that could establish it.
 
 
 ---
@@ -55,33 +62,63 @@
      people leave out. Every taxonomy has a hardest boundary. Name yours. -->
 
 ### `label_one`
-
+Label 1: analysis
 **Definition:**
+A post that supports its central argument with at least one specific, checkable fact, such as a number, date, technical comparison, or documented event.
 
 **Example 1:**
->
+
+"Game price isn't the problem, wages are" — The author compares game prices over 30 years with inflation and discusses $70–$80 games to support their argument.
 
 **Example 2:**
->
+"All the articles about the Tesla stock dropping after March 10th were just wishcasting." The author gives specific stock prices, dates, and links to news articles to support their criticism.
 
 ### `label_two`
 
+Label 2: hot_take
 **Definition:**
+A post that makes a strong, generalized judgment without presenting specific, checkable evidence to support it.
+
 
 **Example 1:**
->
+
+
+"Tattoos are stupid." — The author declares that tattoos are stupid and expresses disgust at particular designs, but provides no factual evidence for the broader judgment.
 
 **Example 2:**
->
+
+"The Daily Show became funny again as soon as Trevor Noah stopped being the host." — The author makes a strong evaluation of the show without explaining it through specific examples or evidence.
+
+### `label_three`
+
+Label 3: personal_preference
+**Definition:**
+A post focused primarily on the author's own likes, dislikes, feelings, or personal experiences rather than making a universal claim..
+
+
+**Example 1:**
+
+
+"I like the smell of cigarette smoke." — The author explains that cigarette smoke reminds them of their mother and creates positive childhood associations.
+
+**Example 2:**
+
+
+
+"I like the new Firefox UI (Nova)" — The author explicitly describes their opinion as a matter of taste and says they simply like the clean appearance.
+
 
 ### The hardest boundary
 
 **Which two labels:**
+hot_take vs. personal_preference
+
+Why it's ambiguous: The title sounds like a hot_take because it makes a strong, general statement that chocolate and fruit don't belong together. However, the author explains their own tastes and experiences, saying, "I have never tasted a combination of chocolate and fruit that wasn't significantly worse than the individual components." The post is strongly worded, but it focuses on the author's personal preferences rather than arguing that everyone should feel the same way.
 
 **The decision rule I used every time:**
 <!-- e.g. "If the post names a specific checkable fact, it's `analysis`, even
      if the tone is heated." -->
-
+If a post primarily expresses the author's personal likes, dislikes, or experiences, label it personal_preference, even if the language is strong or exaggerated. If the post makes a broad judgment about something being objectively good, bad, right, or wrong without providing checkable evidence, label it hot_take. When the title and body suggest different labels, use the main point of the body to decide.
 
 
 ---
@@ -93,17 +130,23 @@
 
 **Where the posts came from:**
 
+https://lemmy.world/c/unpopularopinion?dataType=Post&sort=TopAll
+
+ai201-project3-takemeter-starter-v2026\data\lemmy_unpopularopinion_clean_labeled.csv 
+
 **How I labelled them:** <!-- Cold first? Pre-labelled with AI and corrected?
 Say so plainly — the disclosure is required, not penalised. -->
+
+I read some of the posts and gave some ideas to AI to see if there was enough evidence in the rest of the dataset to make an even classification using my suggestions without one dominating the dataset over another. This was how it was settled on the three labels that were chosen. Then I used AI to go in and label the dataset, and I went through and did checks to make sure they aligned correctl. 
 
 **Counts per label:**
 
 | Label | Count | Share |
 |---|---|---|
-|  |  |  |
-|  |  |  |
-|  |  |  |
-| **Total** |  | 100% |
+| analysis | 51 | 25.5 |
+| hot_take  | 89  | 44.5 |
+| personal_preference | 60 | 30.0 |
+| **Total** | 200  | 100% |
 
 **Three hard cases**
 
@@ -112,24 +155,35 @@ Say so plainly — the disclosure is required, not penalised. -->
 
 **1.**
 > *The post:*
+"I feel like I'm the only one in my life who holds this opinion, but I have never tasted a combination of chocolate and fruit that wasn't significantly worse than the individual components."
 >
 > *Could have been:*
+hot_take or personal_preference
 >
 > *I chose, because:*
+
+personal_preference — The title makes a strong statement that sounds like a hot take, but the author mainly describes their own experiences with different chocolate and fruit combinations. They also acknowledge that taste is subjective. Since the post focuses on personal likes and dislikes rather than making a broader argument, I chose personal_preference.
 
 **2.**
 > *The post:*
+"Tattoos themselves are stupid. Doubly so if it's some media IP."
 >
 > *Could have been:*
->
+>hot_take or personal_preference
 > *I chose, because:*
+
+ hot_take — The author clearly dislikes tattoos, which could make this a personal preference. However, they go beyond saying they personally dislike them and make the broad claim that there are no cool tattoos. Since they are making a generalized judgment without providing specific, checkable evidence, I chose hot_take.
 
 **3.**
 > *The post:*
+To me, cold meals taste much better compared to hot meals. With chili, for example, the flavor becomes more rich after it has cooled down."
 >
 > *Could have been:*
+
+hot_take or personal_preference
 >
 > *I chose, because:*
+personal_preference — The title sounds like a universal claim, and the author gives several reasons why cold food is better. However, most of the explanation comes from their own eating preferences and experiences, such as enjoying the taste of cold food and disliking the risk of burning their mouth. Since the argument is primarily based on what the author personally enjoys, I chose personal_preference.
 
 ---
 
