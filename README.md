@@ -208,6 +208,43 @@ personal_preference — The title sounds like a universal claim, and the author 
 
 ---
 
+<!--Streth Feature #3 Expanding the datset -->
+
+Expanding the Dataset for the thinnest datapoint
+
+After testing my model, I noticed that analysis was my thinnest label and one of the hardest for the model to predict correctly. It originally had only 37 examples out of 271 posts, so I decided to expand the dataset to give the model more examples to learn from.
+
+I collected additional public posts from the Unpopular Opinion community on Lemmy, using a larger dataset of up to 1,000 posts. I made sure the new posts weren't already in my original dataset and added 50 new analysis examples, bringing that label from 37 to 87 posts. I also added 30 proposal posts and 12 hot_take posts to help keep the dataset balanced.
+
+This brought my dataset from 271 to 363 posts. My goal was to give the model a better chance of recognizing analysis instead of predicting the more common labels. The updated dataset is saved as LABELS_EXTENDED.CSV, with the same text, label, and note columns.
+
+Before 37 after 50 additions 87. 
+Which label had the fewest examples?
+
+analysis was my smallest label, with only 37 posts.
+
+Where did the new posts come from?
+
+I collected more public posts from the Unpopular Opinion community on Lemmy using a larger CSV of up to 1,000 posts.
+
+How did I expand the dataset?
+
+I added 50 analysis, 30 proposal, and 12 hot_take posts. I made sure none were duplicates from my original dataset.
+
+What changed after expanding?
+
+analysis increased from 37 to 87 posts.
+
+The total dataset increased from 271 to 363 posts.
+
+Why did I expand the dataset?
+
+My model was struggling to identify analysis posts, so I wanted to give it more examples to learn from and make the four labels more balanced.
+
+Where is the updated dataset?
+
+The expanded dataset is saved as LABELS_EXTENDED.CSV with the columns text, label, and note.
+
 ## The Training Run
 
 <!-- Your starting model, your settings, and anything you changed and why. -->
