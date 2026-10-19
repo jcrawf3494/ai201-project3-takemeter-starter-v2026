@@ -107,6 +107,27 @@ A post focused primarily on the author's own likes, dislikes, feelings, or perso
 
 "I like the new Firefox UI (Nova)" — The author explicitly describes their opinion as a matter of taste and says they simply like the clean appearance.
 
+<!-- Stretch Feature #2 --> 
+Label 4: proposal
+
+Definition: A post that explicitly recommends changing a rule, policy, standard, or common practice.
+
+Real examples:
+
+"Cooking classes should be mandatory in school." — The author argues that schools should require cooking classes, potentially across multiple grades.
+
+"Headlight height should be regulated" — The author proposes a specific maximum headlight height of two feet to reduce glare.
+
+Ambiguous post and decision rule
+
+Post: "People don't hate on plane travel enough"
+
+Between: analysis and proposal
+
+This post could be classified as analysis because the author makes a checkable claim about airplane pollution, including a comparison of emissions per kilometer. However, the author also explicitly argues that plane travel should be discouraged in favor of high-speed trains, staycations, and other transportation alternatives.
+
+Decision rule: If a post uses factual evidence but its central purpose is to recommend a specific change in behavior, rules, or practices, label it proposal. If its primary purpose is to explain or establish a claim using checkable evidence without requesting a specific change, label it analysis.
+
 
 ### The hardest boundary
 
@@ -192,15 +213,39 @@ personal_preference — The title sounds like a universal claim, and the author 
 <!-- Your starting model, your settings, and anything you changed and why. -->
 
 **Base model:**
+`distilbert-base-uncased` (DistilBERT), fine-tuned for sequence classification.
 
-**Settings:** <!-- epochs, learning rate, batch size, seed -->
+**Settings:** The first run used 3 epochs, a learning rate of `2e-5`, a batch
+size of 16, a maximum sequence length of 128 tokens, and seed 42. The 200-post
+three-label dataset was split 70/15/15: 140 training posts, 30 validation
+posts, and 30 test posts.
 
 **Anything I changed from the defaults, and why:**
+I ran three versions. The first used the three labels (`analysis`, `hot_take`,
+and `personal_preference`) for 3 epochs. The first stretch run kept those same
+three labels and the same 200 posts, and changed only the epoch count from 3
+to 6 because the first model mostly predicted `hot_take`. Accuracy changed
+from 43.3% to 53.3%, and macro F1 changed from 0.202 to 0.401.
 
-**Split sizes:** <!-- train / val / test, and per-label counts in the test
-split. If a label had fewer than about 8 in test, say so — it explains a lot
-of next unit's variance. -->
+The second stretch run used four labels by adding `proposal` and expanding the
+dataset to 363 posts. It also used 6 epochs. The base model, learning rate,
+batch size, maximum sequence length, seed, and 70/15/15 split approach stayed
+the same; the label set and dataset changed for this stretch run. This run's
+test split had 55 posts. Its accuracy was 61.8% and macro F1 was 0.601.
 
+**Note about `results.json`:** The root `results.json` contains the metrics
+from the final, four-label stretch run, so it does not describe training on
+the required three-label `labels.csv`. This happened because the notebook's
+input was set to `LABELS_EXTENDED.csv` for that stretch run, and the notebook
+writes each run's metrics to the same root `results.json` path, replacing the
+previous file. The earlier three-label run's metrics are in
+`data/results.json`; the root results file should be understood as evidence
+for the expanded stretch experiment, not as the result for the required
+200-post dataset.
+
+**Split sizes:** For the initial 200-post, three-label run: 140 train / 30
+validation / 30 test. For the final 363-post, four-label stretch run, the test
+split contained 55 posts.
 
 
 ---
@@ -229,70 +274,17 @@ I wanted to do a second run because it looked like my training was basically jus
 - *What came back:*
 There were a few things that it suggested that I change. Which I agree with. I do not think 3 epochs was enough to learn the data so it suggested doing 6 epochs first and seeing what the results were. If that does not help then change the max_length because a lot of my posts are longer that 128 characters. 
 - *What I changed:*
-I am going to change the epochs and run again 
+I changed the epoch count from 3 to 6 and kept the three-label dataset and
+other settings the same for the first stretch run.
 
 **Pre-labelling disclosure:**
 
 I used AI to help pre label. I gave it the labels I wanted then I went in and checked them to make sure I agreed with them. 
 
-<!-- STRETCH FEATURE SECOND TRAINING RUN -->
-I ran a second training run. The hyperparameter I changed was epochs from 3 to 6. Here are the results 
-Metric	3 epochs	6 epochs	Change
-Accuracy	43.3%	53.3%	+10 points
-Macro F1	0.202	0.401	+0.199
-analysis F1	0.000	0.000	No improvement
-hot_take F1	0.605	0.632	Slight improvement
-personal_preference F1	0.000	0.571	Big improvement
-
-So more epochs did help. Potentially adding more and changing the max_lenght would give us even more promising results. 
-
-
-<!-- Stretch Feature #2 --> 
-Label 4: proposal
-
-Definition: A post that explicitly recommends changing a rule, policy, standard, or common practice.
-
-Real examples:
-
-"Cooking classes should be mandatory in school." — The author argues that schools should require cooking classes, potentially across multiple grades.
-
-"Headlight height should be regulated" — The author proposes a specific maximum headlight height of two feet to reduce glare.
-
-Ambiguous post and decision rule
-
-Post: "People don't hate on plane travel enough"
-
-Between: analysis and proposal
-
-This post could be classified as analysis because the author makes a checkable claim about airplane pollution, including a comparison of emissions per kilometer. However, the author also explicitly argues that plane travel should be discouraged in favor of high-speed trains, staycations, and other transportation alternatives.
-
-Decision rule: If a post uses factual evidence but its central purpose is to recommend a specific change in behavior, rules, or practices, label it proposal. If its primary purpose is to explain or establish a claim using checkable evidence without requesting a specific change, label it analysis.
-
-Final label: proposal
-
-This rule prevents posts from being assigned different labels just because one annotator focuses on the evidence while another focuses on the recommendation.
-
-THIS WAS THE BREAK DOWN BEFORE 
-
-analysis	37	13.7%
-hot_take	78	28.8%
-personal_preference	106	39.1%
-proposal	50	18.5%
-Total	271	100%
-
-LOCATED IN ai201-project3-takemeter-starter-v2026\LABELS_EXTENDED.CSV
-
-STRETCH FEATURES ADDED 50 MORE TO THE thinnest
-
-I added 50 more labels to the analysis label. And I added some more to the other ones as well. I did this because before analyis had a lot lower amount of labels which could cause issues with the classifer classifying correctlty. I add to add more to the other ones as well for the same reasons. 
-
-ai201-project3-takemeter-starter-v2026\LABELS_EXTENDED.CSV is where they are located 
-
-analysis	87	24.0%
-hot_take	90	24.8%
-personal_preference	106	29.2%
-proposal	80	22.0%
-Total	363	100%
+The later stretch run added `proposal` as a fourth label and used an expanded
+363-post dataset. It kept the 6-epoch setting and all the other training
+settings the same. The expanded dataset had 87 `analysis`, 90 `hot_take`, 106
+`personal_preference`, and 80 `proposal` posts.
 
 <!-- ═══════════════════════ UNIT 6 — THE TEST ═══════════════════════
 
