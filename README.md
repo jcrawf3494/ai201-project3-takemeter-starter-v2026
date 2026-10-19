@@ -208,7 +208,7 @@ personal_preference — The title sounds like a universal claim, and the author 
 
 ---
 
-<!--Streth Feature #3 Expanding the datset -->
+<!--Streth Feature #3 Expanding the datset adding  50 to the thinnest label-->
 
 Expanding the Dataset for the thinnest datapoint
 
