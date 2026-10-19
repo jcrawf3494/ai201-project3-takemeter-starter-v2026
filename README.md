@@ -235,6 +235,43 @@ I am going to change the epochs and run again
 
 I used AI to help pre label. I gave it the labels I wanted then I went in and checked them to make sure I agreed with them. 
 
+<!-- STRETCH FEATURE SECOND TRAINING RUN -->
+I ran a second training run. The hyperparameter I changed was epochs from 3 to 6. Here are the results 
+Metric	3 epochs	6 epochs	Change
+Accuracy	43.3%	53.3%	+10 points
+Macro F1	0.202	0.401	+0.199
+analysis F1	0.000	0.000	No improvement
+hot_take F1	0.605	0.632	Slight improvement
+personal_preference F1	0.000	0.571	Big improvement
+
+So more epochs did help. Potentially adding more and changing the max_lenght would give us even more promising results. 
+
+
+<!-- Stretch Feature #2 --> 
+Label 4: proposal
+
+Definition: A post that explicitly recommends changing a rule, policy, standard, or common practice.
+
+Real examples:
+
+"Cooking classes should be mandatory in school." — The author argues that schools should require cooking classes, potentially across multiple grades.
+
+"Headlight height should be regulated" — The author proposes a specific maximum headlight height of two feet to reduce glare.
+
+Ambiguous post and decision rule
+
+Post: "People don't hate on plane travel enough"
+
+Between: analysis and proposal
+
+This post could be classified as analysis because the author makes a checkable claim about airplane pollution, including a comparison of emissions per kilometer. However, the author also explicitly argues that plane travel should be discouraged in favor of high-speed trains, staycations, and other transportation alternatives.
+
+Decision rule: If a post uses factual evidence but its central purpose is to recommend a specific change in behavior, rules, or practices, label it proposal. If its primary purpose is to explain or establish a claim using checkable evidence without requesting a specific change, label it analysis.
+
+Final label: proposal
+
+This rule prevents posts from being assigned different labels just because one annotator focuses on the evidence while another focuses on the recommendation.
+
 <!-- ═══════════════════════ UNIT 6 — THE TEST ═══════════════════════
 
      Don't fill these in during unit 5.
