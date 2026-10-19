@@ -1,51 +1,66 @@
 {
   "seed": 42,
-  "n_test": 30,
-  "accuracy": 0.5333333333333333,
-  "f1_macro": 0.40100250626566414,
+  "n_test": 55,
+  "accuracy": 0.6181818181818182,
+  "f1_macro": 0.6012332112332113,
   "per_label": {
     "analysis": {
-      "precision": 0.0,
-      "recall": 0.0,
-      "f1": 0.0,
-      "support": 8
-    },
-    "hot_take": {
-      "precision": 0.48,
-      "recall": 0.9230769230769231,
-      "f1": 0.631578947368421,
+      "precision": 0.5833333333333334,
+      "recall": 0.5384615384615384,
+      "f1": 0.56,
       "support": 13
     },
-    "personal_preference": {
-      "precision": 0.8,
-      "recall": 0.4444444444444444,
+    "hot_take": {
+      "precision": 0.5714285714285714,
+      "recall": 0.5714285714285714,
       "f1": 0.5714285714285714,
-      "support": 9
+      "support": 14
+    },
+    "personal_preference": {
+      "precision": 0.6086956521739131,
+      "recall": 0.875,
+      "f1": 0.717948717948718,
+      "support": 16
+    },
+    "proposal": {
+      "precision": 0.8333333333333334,
+      "recall": 0.4166666666666667,
+      "f1": 0.5555555555555556,
+      "support": 12
     }
   },
   "confusion": {
     "analysis": {
-      "analysis": 0,
-      "hot_take": 8,
-      "personal_preference": 0
+      "analysis": 7,
+      "hot_take": 3,
+      "personal_preference": 2,
+      "proposal": 1
     },
     "hot_take": {
-      "analysis": 0,
-      "hot_take": 12,
-      "personal_preference": 1
+      "analysis": 1,
+      "hot_take": 8,
+      "personal_preference": 5,
+      "proposal": 0
     },
     "personal_preference": {
       "analysis": 0,
-      "hot_take": 5,
-      "personal_preference": 4
+      "hot_take": 2,
+      "personal_preference": 14,
+      "proposal": 0
+    },
+    "proposal": {
+      "analysis": 4,
+      "hot_take": 1,
+      "personal_preference": 2,
+      "proposal": 5
     }
   },
   "confidence": {
-    "mean_when_right": 0.5069959759712219,
-    "mean_when_wrong": 0.4388161301612854,
-    "accuracy_most_confident_third": 0.8,
-    "accuracy_least_confident_third": 0.2,
-    "n_per_third": 10
+    "mean_when_right": 0.4987093508243561,
+    "mean_when_wrong": 0.43868985772132874,
+    "accuracy_most_confident_third": 0.7777777777777778,
+    "accuracy_least_confident_third": 0.5555555555555556,
+    "n_per_third": 18
   },
   "device": "cpu",
   "device_name": "CPU",

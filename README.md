@@ -272,6 +272,28 @@ Final label: proposal
 
 This rule prevents posts from being assigned different labels just because one annotator focuses on the evidence while another focuses on the recommendation.
 
+THIS WAS THE BREAK DOWN BEFORE 
+
+analysis	37	13.7%
+hot_take	78	28.8%
+personal_preference	106	39.1%
+proposal	50	18.5%
+Total	271	100%
+
+LOCATED IN ai201-project3-takemeter-starter-v2026\LABELS_EXTENDED.CSV
+
+STRETCH FEATURES ADDED 50 MORE TO THE thinnest
+
+I added 50 more labels to the analysis label. And I added some more to the other ones as well. I did this because before analyis had a lot lower amount of labels which could cause issues with the classifer classifying correctlty. I add to add more to the other ones as well for the same reasons. 
+
+ai201-project3-takemeter-starter-v2026\LABELS_EXTENDED.CSV is where they are located 
+
+analysis	87	24.0%
+hot_take	90	24.8%
+personal_preference	106	29.2%
+proposal	80	22.0%
+Total	363	100%
+
 <!-- ═══════════════════════ UNIT 6 — THE TEST ═══════════════════════
 
      Don't fill these in during unit 5.
