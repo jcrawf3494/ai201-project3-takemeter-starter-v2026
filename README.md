@@ -132,7 +132,7 @@ If a post primarily expresses the author's personal likes, dislikes, or experien
 
 https://lemmy.world/c/unpopularopinion?dataType=Post&sort=TopAll
 
-ai201-project3-takemeter-starter-v2026\data\lemmy_unpopularopinion_clean_labeled.csv 
+ai201-project3-takemeter-starter-v2026\data\lemmy_unpopularopinion_200_labeled.csv
 
 **How I labelled them:** <!-- Cold first? Pre-labelled with AI and corrected?
 Say so plainly — the disclosure is required, not penalised. -->
@@ -217,16 +217,23 @@ of next unit's variance. -->
 **Moment 1**
 
 - *What I asked for:*
+I asked for help in identifying a public forum that would be interesting and easy to get data from. I did not want to sit there and manually copy and paste for 200 items. So I used chat gpt to help me search
 - *What came back:*
+There were a lot of different ideas and I went back and forth a few times in the search looking for the best way to get the answer. 
 - *What I changed:*
-
+I initially started out as a movie review instance on lemmy but it was mostly links to other websites so I focused on unpopularopinion because it offered the best data for what I was doing. 
 **Moment 2**
 
 - *What I asked for:*
+I wanted to do a second run because it looked like my training was basically just guessing at which one it was by saying hot_take for everyone which came back with a .45 which is not good at all. So I asked it to look at the notebook and outputs and see what we could change. 
 - *What came back:*
+There were a few things that it suggested that I change. Which I agree with. I do not think 3 epochs was enough to learn the data so it suggested doing 6 epochs first and seeing what the results were. If that does not help then change the max_length because a lot of my posts are longer that 128 characters. 
 - *What I changed:*
+I am going to change the epochs and run again 
 
 **Pre-labelling disclosure:**
+
+I used AI to help pre label. I gave it the labels I wanted then I went in and checked them to make sure I agreed with them. 
 
 <!-- ═══════════════════════ UNIT 6 — THE TEST ═══════════════════════
 
