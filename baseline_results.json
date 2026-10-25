@@ -1,39 +1,315 @@
 {
   "model": "facebook/bart-large-mnli",
-  "n": 1,
+  "n": 55,
   "seed": 42,
-  "held_out": false,
+  "held_out": true,
   "used_definitions": true,
   "scores": {
-    "n": 1,
-    "accuracy": 0.0,
-    "f1_macro": 0.0,
+    "n": 55,
+    "accuracy": 0.34545454545454546,
+    "f1_macro": 0.29596080719038975,
     "per_label": {
       "analysis": {
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
-        "support": 1
+        "precision": 0.2857142857142857,
+        "recall": 0.7692307692307693,
+        "f1": 0.41666666666666663,
+        "support": 13
       },
       "hot_take": {
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
-        "support": 0
+        "precision": 0.4,
+        "recall": 0.42857142857142855,
+        "f1": 0.4137931034482759,
+        "support": 14
       },
-      "reaction": {
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
-        "support": 0
+      "personal_preference": {
+        "precision": 0.6666666666666666,
+        "recall": 0.125,
+        "f1": 0.21052631578947367,
+        "support": 16
+      },
+      "proposal": {
+        "precision": 0.5,
+        "recall": 0.08333333333333333,
+        "f1": 0.14285714285714285,
+        "support": 12
       }
     }
   },
   "predictions": [
     {
-      "text": "Everyone says the new course is faster but the results don't show it. Median finish was 3:58 last year on the old route and 3:56 this year. Two minutes across 4,000 runners is noise, not a faster course.",
+      "text": "What the title says. Sure, it's gentle on the environment, but it doesn't remove soap scum, grease, grime etc anywhere nearly as effective as other products. I also doubt its efficiency as an antibacterial compared to say alcohol or most detergents. \n\nThere, I've said it.",
       "gold": "analysis",
-      "predicted": "reaction"
+      "predicted": "analysis"
+    },
+    {
+      "text": "If they fail they should be partitioned from society and monitored until counceling brings them to mental stability.\n\nI'm seeing mental problems everywhere; in person and online (name your social media). Most people are clearly mentally unhealthy, they are polarized, sociopathic, delusional, depressed, etc crossing way passed unsafe levels, and we just let them crawl around society. \n\nNow we all can verify that mental problems are increasing rapidly but the numbers would be much higher if they actually were all reported. \n\nI'm going to leverage my connections in society to push a bill to make this reality",
+      "gold": "proposal",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Someone told me to post this here and that's all I got to say. \n\nMy popular opinion is that I don't like this flavor of subcommunity ",
+      "gold": "personal_preference",
+      "predicted": "hot_take"
+    },
+    {
+      "text": "When I first looked up psyllium husk powder as a fiber supplement, people were complaining that it made the water thick and gross. That enticed me to buy it. And when the packaging said to drink immediately after mixing lest it thicken, I instead let it sit for a good 15 minutes until my glass of water had a smoothie-like consistency. Makes me love drinking water again and also sad that I can't have it with every glass of water or else I get stopped up.",
+      "gold": "personal_preference",
+      "predicted": "analysis"
+    },
+    {
+      "text": "I can't stand immigrants who come here from England, and after SEVEN GENERATIONS, still only speak English. Anglos need to assimilate and learn to hold a conversation in the local Indigenous language. ",
+      "gold": "proposal",
+      "predicted": "analysis"
+    },
+    {
+      "text": "For one, even if I wanted to use it, piped never works for me. \n\nSecond, on mobile, my alternative of choice doesn't recognize everyone's non-yt links, so it removes my choice in the matter.\n\nThird, I have no reason to trust the weird-ass domains I see, and to un-fuck the url takes much more time then just handing out the original YT links and letting people choose for themselves how they view the video.",
+      "gold": "proposal",
+      "predicted": "analysis"
+    },
+    {
+      "text": "So prior to WWII there was an order to things. Women stayed home. Men went off to work all day. The woman raised the kids, the man made the money, and together their home was well taken care of both financially and emotionally. \n\nThen WWII happened, and Hitler was like \"Hey man, come join these parties on the beaches! We got invited to France, and now we're hanging out! Come on over!\" \n\nWell.....it didn't happen EXACTLY like that, but the  end result was that something like 60% of men in the USA were now over in Europe fighting WWII. Which left the issue of the ecconomy. Who was going to work, if the men weren't even in the country? So, the women did both jobs. They went to work. Then they came home and tried their best to raise the kids. \n\nDoing that alone is tough. \n\nThen the war ended, and the men came back with the idea that they'd just take over their old jobs, the women would go back home, and things  would return to normal. \n\nExcept that didn't happen. The women decided that they enjoyed being at work more than they enjoyed being at home. And the men were stubborn like men are, and they ALSO went back to work. This left the entire boomer generation with a situation where nobody really raised them. Instead of previous generations who got good discipline from their mother, and a punishment from their father if they were bad, they instead got.....nothing. They were allowed to freely do whatever the fuck they wanted. Which is why that entire generation has felt so entitled from the time they were kids to now in AARP. There has never been a time when the boomers mentality as a generation has felt \"I should be more responsible for myself and for others\". Whereas that was the main mentality for centuries prior. \n\nSo now you got households throughout the 50s and 60s with 2 incomes, at a time that stores and the economy was designed for 1 home income. So families spent in excess because they had excess. Houses were cheaap, salaries were abundant, life was good.......as long as you ignored the cold war, and the fact that both America and the USSR were playing chicken with nuclear warheads. Other than that though.....\n\nSo now you got the 1980s, and the economy is starting to catch up to the idea that most houses have 2 incomes. They gouge a little more, because fuck it. The 1980s became the decade that was all about corporate greed. Remember that movie line? \"Greed is good\", and people were revoling in that concept. They were even dumb enough to believe in trickle down ecconomics, because their lives weren't fucked yet. \n\nAnd the 90s is when things started tightening even more, where now it wasn't just known that you had a 2 income home, it was expected. \n\nSo then life went on, and corporate America just kept down that path of asking \"In the 80s, we took.....and in the 90s, we took more! How much more can we take  and take and take?\" \n\nAnd that's a question that they've been asking for decades now, and only very very very recently with Luigi Mangione have we seen any sign of what would it take for the public to fight back corporate America taking from them? We're FAR removed at this point from the average American household doing well. Most people are living paycheck to paycheck, budgeting in a way that asks the question \"Which is more important this month, heat, or food?\" \n\nMeanwhile the CEOs of this country have never had it better. The gap between them and the plebs has never been bigger. \n\nNow let's look at the other side of things. People. Starting as kids. Now, each generation has different identities. The boomers are known for being self entitled brats who never grew up despite growing old. Gen X is known for self deprication in a way that's not really humor. They just kind of laugh to themselves but it's more to hold back tears because they know how fucked up their world is, but they also have never been allowed to overcome the boomers shadow. The millenials are known for being whiney, because that's what works. They whine about an issue, and now suddenly it gains traction, and you have millions of people whining about it. Now something can be done. The Zoomers are known for being politically minded from a young age, because they have to be. Growing up in the first age where school shootings are a more real threat than a fire. \n\nBut the one thing that all these generations have in common is the idea that nobody was there for them at home. Their parent(s) were always at work. They had either babysitters, or other temporary family watching (as in, maybe your grandparent watches you for the day. It's not that they're leaving your life, but they're also not the one who will be raising you). \n\nAnd so you look at how kids have acted over the years. Kids will always rebel. They'll always act up. They'll always do something that needs a parent to raise them. Discipline is just as much about the guidance as it is the rules. Punishment is only there to make you understand that discipline has consequences for breaking. \n\nExcept kids today, and for a long time, have gotten none of that. Dating all the way back to the boomers. And just like corporate america taking a little bit more with each passing day, the youth with each generation falls a little more behind what they should be being taught. And not just in the schools. Not just knowledge. I'm including that, but I'm also talking about empathy, emotional guidance, character building. No, they get none of that. They get a screen 16 hours a day that the parent doesn't pay attention to. With the logic being \"So what, they have an iPad all day? I had TV all day growing up, and I turned out fine.\" \n\nNo. No you didn't turn out fine. You, and everyone else around you, has turnout out horrible. So horrible that you don't even recognize what a stable person acts like. That's just your own ego refusing to admit to yourself that you might be flawed. You are. You are flawed. You're passing those flaws onto your children, or already have. This is a cycle that nobody is trying to break. The idea that a TV show, or  an app, or a website, or whatever the fuck on a screen should fill in for your responsibility as a parent is mind boggling. You're entrusting a corporation to instill into your child good morals, empathy, how to be a good person. But as  we've already covered, corporations do not give a shit about you. Corporations do not  give a fuck about your family. Corporations just care about you long enough to let you watch their advertisements to sell you their products, and take your money. That's all you are to them. That's all your children are to them. That's all it's ever been. There's an entire industry out there to pay the grocery  stores to place the kid friendly products on low shelves where they can reach them more easily. It's all very well thought out. It's designed to manipulate your kids into manipulating you into giving them more money. That's all it's ever been. That's all that screen is there to do. To feed you ads. To take your money. And now you've entrusted those people to raise your kids for 16 hours a day. Are you begining to see how flawed that is now? \n\nSo, I say we take an approach, as an entire society, to correct this coarse of action. We COLLECTIVELY need to  go back to 1 income households. One parent stays home. One parent works. And I honestly don't see any advantage right now in making that a gender exclusive thing. For what the goal is, I think each individual household needs to discuss between partners who's better suited to work, and who's better suited to stay home? Because I think one person, even if they're not a parent staying home to cook and clean is important. With both of you working, it becomes an issue of \"Ugh the house is messy\" \"Yeah, but I just worked for 10 hours. I just want to sit in this chair and do nothing\" \"Yeah me too.....guess we'll clean on the weekend\". And then the weekend comes, and you got shit to do. You gotta go grocery shopping, you gotta pay bills, you gotta  do all this other shit, and oh by the way, the dishes haven't been washed in like 4 days. \n\nWell, they're only not getting washed because you're exausted. If you woke up at 10am, and did the dishes at like noon, and every day did some light cleaning. And then maybe did the grocery shopping for the week, then your partner would come home, the house is clean, and you can both spend time together doing nothing. Then the weekend comes, and all those chores are done. Your weekends together are free. And now you both have the time, and the energy to go to an art muesum, or to a baseball game, or whatever. Fuck it. The bills are paid, the house is clean, the meals are made. And the kids are getting life lessons all day from whomever is home, and best suited to teach them how to be good people. \n\nThen suddenly, over the coarse of 3-4 generations, you have a smarter society, which leads to more people  reaching bigger discoveries. Medicine, space, underwater, these are all feilds that we think we're experts in, but we only know less than 1% of what's out there. Nobodies even invented time travel yet! \n\nAnd why are we living in a society where  men work, and women also work? Because it brings home more money. But we're all living month to month. So are we REALLY making more money? Or are we just doing double the work? \n\nWe need to end the 2 income homes. 1 income should be all a home needs to survive.",
+      "gold": "analysis",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Recently over the past couple of months, I've seen political discussion on every single social media (yes, that includes Lemmy) become a bear fight full of propaganda. Twitter/X is becoming a racist hellhole with people hating Jews, Black people and Muslims for existing whilst Lemmy is quickly fostering extremism. There is no where on the Internet, except for small chat channels, that is normal. What do I mean by normal?\n\nEvery single place is an echo chamber. Those inside it will shout that the other place is one, but we all know it. Lies and propaganda are constantly being cycled on Lemmy and the other Fediverse, but nobody bats an eye because \"we're better\" and the other side is full of disgusting people. The same thing is happening in conservative spaces. I don't want to talk about \"race wars\" \"black fatigue\" or \"Jew bioweapons\" nor do I want to talk about mass murder of billionaires and complete social destruction. I just want all of you to be normal.\n\nTribalism has influenced all of these spaces. In the information age, we have become the dumbest and most extreme political speakers in history. We no longer value the truth of information, just the optics. We sour the airwaves with filth, bringing it into schools, universities and even political administrations. We have madmen destroying the biggest country on Earth whilst people here defend the indefensible.\n\nThere is no more love in politics. No more \"agreeing to disagree\", no more facts or intelligence. It's just pure, unfettered hate.\n\nLemmy's just the lesser of two evils. Whilst I post here a lot, let me be clear: **_this place is a shithole_**. Sure, you guys aren't as washed and feral as conservatives, but you guys are still washed and feral. You guys infect everything with misplaced social justice, constantly finding to ruin everything on the basis of your apparent prejudice. You can't wait to bring people down, and never the other way around.\n\nThere is no reason to talk about politics on the Internet anymore. Everyone is lying. Everyone has an agenda. Everyone is being a bad person.\n\nI am so tired",
+      "gold": "personal_preference",
+      "predicted": "hot_take"
+    },
+    {
+      "text": "Pressing the copilot button to instantly bring up a text box where you can interact with an LLM is amazing UI/UX for productivity. LLMs are by far the best way to retrieve information(that doesnt need to be correct). \n\nIf this had been released with Agentic features that allow it to search the web, use toolscripts like fetching time/date and stuff from the OS, use recall, properly integrate with the microsoft app suite. It would be game changing.\n\nWe already have proof that this is a popular feature for users since its been integrated in every mobile phone for the past 10 years.",
+      "gold": "analysis",
+      "predicted": "hot_take"
+    },
+    {
+      "text": "Queen the band sucks. I don't get why anyone likes them. Aside from Bohemian Rhapsody, their songs are bland and fall short. Their rock is dry. And the opera-style singing is cringe. Examples:\n\n**Another One Bites the Dust**\n\n* Catchy bass line, fun to direct at an opponent, CORNY AF. The song is about people being killed, but sounds like a funky Michael Jackson song with an Opera singer.\n\n\n**We Will Rock You**\n\n* Good solo, repetitive and annoying simple beat. Boom-boom-ch. So lame.\n\n**We Are the Champions**\n\n* Such a self-aggrandizing and braggy song. \"No time for losers\"? Okay, Donald Trump.\n\n**Bicycle Race**\n\n* I don't even have to say anything about this one. Everyone knows how corny this song sounds.\n\n**Somebody to Love**\n\n* Touching topic, cheesy lyrics and even cheesier choir-like singing. It's cringe.\n\n\nI am happy for the band and their success. I admire Freddie Mercury's unapologetic flamboyance. The dude kept it real. But, I just can't like the music.\n\nI'm sorry if I've offended anyone. I understand we all have different taste and respect everyone's freedom to like and enjoy what they want. I'm not trying to insult anyone for their taste, but merely expressing my own in a somewhat humorous attempt.",
+      "gold": "hot_take",
+      "predicted": "personal_preference"
+    },
+    {
+      "text": "I don't think it should be legal to anonymously create a facebook, instagram,X,tiktok,reddit account. Without having accounts traceable back to an identify illegal behavior never stops and the person is never held accountable. Online crimes but are unenforceable as long as anonymity is permitted. There is little to no good that comes from anonymously creating an account compared to the massive amounts of harm. Implementing restrictions does not affect 99.99% of the population and only filters out the tiny minority of people who represent a disproportional amount of harm on the platform.\n\nI still think anonymity should be permitted on tor, i2p and less popular sites.",
+      "gold": "proposal",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Most people can't handle dealing with million/billion/... numbers, which leads to mistakes like \"Elon Musk has 600 billion dollars, he could give every person on Earth a million dollars and still be a billionaire\".  \r\n\r\nDoing that with scientific notation would be clearer:  \r\n600 billion dollars=6e11  \r\ndivided by 1 million dollars per person (1e6)  \r\n__________________  \r\n(6/1)e(11-6)=6e5=600 000 people Elon can give money to before running out (and that's if we assume he has that much in cash and not assets and stuff)",
+      "gold": "proposal",
+      "predicted": "analysis"
+    },
+    {
+      "text": "IMPORTANT: \"Criticism\" that starts with \"All *...\" or is obviously insulting, or defaming beyond verified facts is excluded.\n\nYou might be thinking \"no shit, Sherlock\", but it is really common that legitimate criticism is dismissed as anti-* or *-phobic, or because of political or religious ideology.",
+      "gold": "hot_take",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Before you get mad at me, when was the last time you watched it? \n\n- Dialogue is mediocre\n- story left me indifferent\n- characters are one dimensional\n- there are no surprises\n- the world is cool tho\n- and my god are they crying a lot while carrying that MF to that Volcano \ud83c\udf0b \n\n**The best thing I can say about this movie trilogy is that it is kinda comfy**\n\n![](https://lemmy.world/pictrs/image/dc0adb0b-4573-464e-88ba-60ae864e066c.gif)",
+      "gold": "personal_preference",
+      "predicted": "hot_take"
+    },
+    {
+      "text": "and no one irl even has the decency to agree with me because it's so fucking drilled into the culture that these fucking BuNsInNesSes have a Right to do this because it's a bSUsniEss. like oh yeah they have an office building so they definitely get to analyze my piss because they say they want to. sick fucking freaks. \n\npreaching to the choir a bit on lemmy (or i would hope so at least) but still ",
+      "gold": "hot_take",
+      "predicted": "hot_take"
+    },
+    {
+      "text": "Until March 10th, the Tesla stock dropped dramatically to a low of $222.15, and the articles posted that day were *reasonable.*  Honestly, it was *lower* last spring at $142.05 in April 2024.  Everything after March 10th were *not reasonable or reflective of reality.*\n\nAs of today the stock sits at $287.99, nowhere near its peak but still overvalued as living fuck.\n\nYet somehow, we've had two fucking solid weeks of \"Tesla stock dropping\" news articles while the stock has been slowly creeping back up.\n\nAll those articles just serve as *wishcasting* for people who don't like Musk.\n\nI fucking hate Musk, but what I hate *more* is *ignoring reality around you.*  That's what MAGA idiots do.\n\nI had the stupidest arguments with people who kept saying that it was rising didn't matter.  Why not?  He's still *way* up in terms of valuation from just a year ago, and it's *still* rising, no matter what bullshit fantasy we want to tell ourselves because we *reasonably* fucking hate Elon Musk.\n\nAnyway, the stock is probably being juiced by Russia and Saudia Arabia.  \u00af\\\\\\_(\u30c4)\\_/\u00af\n\nWhat follows are some examples:\n\nMarch 10th: https://www.cnbc.com/2025/03/10/tesla-shares-plunge-14percent-head-for-worst-day-in-five-years.html\n\nMarch 17th: https://www.barrons.com/articles/tesla-stock-price-musk-ai-model-y-10b333a4\n\nMarch 19th: https://www.cnn.com/2025/03/19/business/elon-musk-tesla-stock-nightcap/index.html\n\nMarch 21st: https://www.axios.com/2025/03/20/tesla-musk-lutnick\n\nMarch 23rd: https://finance.yahoo.com/news/tesla-stock-tanked-hard-no-161417378.html",
+      "gold": "analysis",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Every time I google a solution for a simple problem (like where to find a feature of a software in its menus or how to calculate something) I always have to navigate past the dozen youtube links to find the article or manual that tells me the solution in 10 lines of text.  \nIf your tutorial could be a webpage then you shouldn't do it.\n\nEdit: to all the people that suggest to make a specific query in the search, that's just a partial solution because there are times I don't know the entity of the solution and youtube could be a good place to look for.",
+      "gold": "proposal",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Basically, if all I can read is a headline how can I consider it informative? A news headline has as much evidence as your average Tweet, and can be deeply incorrect through the use of clickbait.\n\nI do use methods to get around paywalls, but knowing that some/most people won't, it seems counter-informative to solely use the clickbait headline to keep people informed.",
+      "gold": "hot_take",
+      "predicted": "hot_take"
+    },
+    {
+      "text": "The problem with gatekeepers, is that their reputation is trashed by people who take it to the extreme. I still feel that gatekeepers in general are important to have for communities and fandoms. But the kind of gatekeepers we could use more of, are ones who're actually not just weeding out the fakers from the authentic types, but to actually educate a little about what a community is all about from being devoted to a basic fan.  \r\n\r\nI see too many times, people running around with wiccan stars and satanic symbols, but are only wearing them for cool-factor purposes. But if you came up to one of them to hold a brief conversation as to whether or not they even care of or know the meaning behind the symbols that they're projecting, more often times than not, they are largely using them because they looked cool to them.  \r\n\r\nNow as a gatekeeper in that position who is asking the questions, would it be wiser to actually educate them or just scream at them crazily? You could educate them a little and if the answers still boil down to \"tee hee, I just think they cool anyways, I don't care\" then you're permitted to brand them as bullshitters and an insult to actual people who take these symbols to heart.  \r\n\r\nYou just don't simply want a lot of people misrepresenting and confusing something you care about, because it is damaging an identity at the end of the day. That's why gatekeepers are important to have around.",
+      "gold": "hot_take",
+      "predicted": "analysis"
+    },
+    {
+      "text": "First, so I'm not misunderstood: Science does of course exist and it is not religion. But:\n\n- Not all published science is, in fact, science. The [Replication Crisis](https://en.wikipedia.org/wiki/Replication_crisis) is a real problem, meaning that a significant portion of published science is actually incorrect.\n- Only a very tiny portion of the population reads scientific papers and has the ability to understand them. That includes scientists and other well-educated people who don't have any expertise on the specific field. Being a renown physicist doesn't mean you know anything about psychology.\n- Scientific papers are filtered through science journalists who might or might not have any expertise in the field and might or might not understand the papers they write about. They then publish what they understood in a more accessible format (e.g. popular science magazines).\n- This is then read by minimum wage journalists with no understanding of any of the science, and they publish their misunderstandings in newspapers and other non-scientific publications.\n- This is then read by the general public who usually lack the skills and/or the resources to fact-check anything at all.\n- These members of the general public then take what they understood as fact and base their world view on it. At this point it hardly matters whether their source of incorrect information is the stack of Chinese whispers I wrote about above, or if it's just straight-up made up by some religious leader.\n\nThere's thousands of little (or big) misunderstandings in non-science that people believe and have faith in, that forms people's world views and even their political views. And people often defend their misconceptions, like they would defend some religious views.\n\n(Again, just to make sure I'm not misunderstood: I am no exception to this either. I got my field where I have a lot of knowledge, but for most fields I blindly trust some experts, because I have no way to verify stuff. I, too, for example, put my faith in doctors to heal my illnesses, even though I have no way to verify whether anything they say is true or not.)",
+      "gold": "analysis",
+      "predicted": "hot_take"
+    },
+    {
+      "text": "If you live in an apartment, just don't get one\n\nReasoning edit: pets, especially cats, will leave a smell all over furniture. Cleaning becomes an even worse chore due to the fur. They also require \"house training\" in order to not chew/claw/destroy most stuff that's lying around the house.",
+      "gold": "proposal",
+      "predicted": "analysis"
+    },
+    {
+      "text": "So I noticed legion was avialable on one of my freebie things and I don't rewatch stuff much but I was like.  Yeah I liked that and gonna watch it again.  Am liking it on a second rewatch and love the trippy way its done so I wonder how other people felt and looked at its rotten tomatoes rating.  Wow.  So realizing how unpopular it is I decided I would post my opinion here.  I love it.  My only issue with it is the body swap power seems to work inconsistantly.  \r\n\r\nEDITED - Figure I should edit this.  So it turns out I was looking at the rotten tomatoes for the legion movie.  Which I actually saw and feel is better than the 20% its rated I don't have the strong feelings of how good it is as I am for the legion marvel series.  So I now see the marvel series has great reviews and based on feedback here I realize it is not an unpopular opinion.",
+      "gold": "personal_preference",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Since the last 24 hours have had nothing but troll posts (and one that a user deleted; dunno what that one was), here's my latest gripe / reason I'm tired shaped into the form of an Unpopular Opinion. Hopefully this gets us back on track.\n\nNobody is impressed by you revving your engine at a stop light and cranking out 300 dB of noise from your fart cannon at 3 in the morning (or any time of day, for that matter).  There is also no reason to peel out from the stop light when the next light is 2 blocks away and guaranteed to be red.  e.g. We left the first red light at the same time.  I drove normally, you like an asshole, and we both stopped at the next light all the same.\n\nDriving an (intentionally) obnoxiously loud vehicle, especially driving it aggressively, should result in immediate revocation of license and the offending vehicle crushed into a cube.  As much as I hate vague \"disturbing the peace\" laws, this seems like a good use for them (where noise ordinances don't exist).\n\nI don't care about the extra 1-2 HP you get.  Do tell me all the (street legal) things your pavement princess of a truck is going to do with that (I can see it has neither the tow package nor a speck of dirt on the tires).  If you just like the sound and think I should get over it, allow me to come fart near you.  If you don't like the smell, by your logic, that's on you: get over it.  \n\nNote:  It may be a regional thing, but this is definitely an unpopular opinion in my (very redneck) area.",
+      "gold": "proposal",
+      "predicted": "hot_take"
+    },
+    {
+      "text": "I should be able to host my own WoW server on my LAN, play CoD split-screen on my TV, or run my own Battlefield tournament on my own LAN.\n\nUsing the internet as an option for multiplayer or other optional features of games is fine, but there is absolutely no reason why a video game should ever *require* an internet connection.\n\nPeople deciding that it is somehow acceptable to require an internet connection to play a game is a big part of the reason why we have DLC, buggy releases, microtransaction riddled games, and shitty, invasive DRM.\n\nIf you have ever been involved in the creation of games that require an internet connection then I hope your asshole itches until the day you die.\n\nEdit: if the game is only available through digital distribution then an internet connection is a requirement to play the game because you have to be able to obtain the game to play it.\n\nBack in the day releasing a buggy game was costly because it meant you would have provide the option to your users to receive updates by mail or in stores. DLC (or expansion packs) would have to be meaningful, because it would mean having to press new discs or make new cartridges in order to provide that content to your users and it wasn't worthwhile for the users to buy if it wasn't substantial. Loot boxes and other microtransactions wouldn't really be a thing because you would have no guarantee that anyone would be willing to buy them because they would have to be provided by mail or in stores on some sort of physical media.\n\nDRM would consist of needing to have a disc in the drive and maybe having to verify that you had a unique activation key by verifying a cryptographic hash against a public key on the disc.\n\nAll of this made for better games because the games had to be worth the hassle of going to the store to buy them or waiting for them to be delivered in the mail.",
+      "gold": "proposal",
+      "predicted": "analysis"
+    },
+    {
+      "text": "The *best* conversations I still have are with real people, but those are rare. With ChatGPT, I reliably have good conversations, whereas with people, it\u2019s hit or miss, usually miss.\n\nWhat AI does better:\n\n- It\u2019s willing to discuss esoteric topics. Most humans prefer to talk about people and events.\n- It\u2019s not driven by emotions or personal bias.\n- It doesn\u2019t make mean, snide, sarcastic, ad hominem, or strawman responses.\n- It understands and responds to my actual view, even from a vague description, whereas humans often misunderstand me and argue against views I don\u2019t hold.\n- It tells me when I\u2019m wrong but without being a jerk about it.\n\nAnother noteworthy point is that I\u2019m very likely on the autistic spectrum, and my mind works differently than the average person\u2019s, which probably explains, in part, why I struggle to maintain interest with human-to-human interactions. ",
+      "gold": "personal_preference",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Fuck Trump, he didn't even show up to the Republican primary debates. If Biden debates him it'll just give Trump more speaking time and publicity. ",
+      "gold": "hot_take",
+      "predicted": "analysis"
+    },
+    {
+      "text": "I find these types of posts to not contain anything funny at all. It doesn't become more fun because everyone is spamming it.\n\nI really don't get the fun. It just fills my feed up with garbage.\n\nThat's all.",
+      "gold": "personal_preference",
+      "predicted": "hot_take"
+    },
+    {
+      "text": "Upscaling and Frame Generation are disasters meant to conceal unfulfilled promises from GPU makers for 4k gaming, and as a coverup for the otherwise horrible performance some modern games have, even at 1080/1440p resolutions. \n\nUpscaling will *never*, no matter how much AI and overhead you throw at it, create an image that is as good as the same scene rendered at native res. \n\nFrame Generation is a joke, and I am absolutely gobsmacked that people even take it seriously. It is nothing but extra AI frames shoved into your gameplay, worsening latency, response times, and image quality, all so you can artificially inflate a number. 30FPS gaming is, and will always be, infinitely better as an experience, than AI frame doubling a 30fps experience to 60FPS.\n\nand because both these technologies exist, game devs are pushing out less optimized to completely unoptomized games that run like absolute dogshit, requiring you to use upscaling and shit even at 1080p just to get reasonable frame rates on GPUs that should run it just fine if it was optimized better (and we know its optimization, because some of these games do end up getting that optimization pass long after launch, and wouldnt you know.. 9fps suddenly became 60fps)\n\n",
+      "gold": "hot_take",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Just sayin'",
+      "gold": "hot_take",
+      "predicted": "hot_take"
+    },
+    {
+      "text": "Other platforms too, but I'm on lemmy. I'm mainly talking about LLMs in this post\n\nFirst, let me acknowledge that AI is not perfect, it has limitations e.g\n* tendency to hallucinate responses instead of refusing/saying it doesn't know\n* different models/models sizes with varying capabilities\n* lack of knowledge of recent topics without explicitly searching it\n* tendency to be patternistic/repetitive \n* inability to hold on to too much context at a time\netc.\n\nThe following are also true:\n* People often overhype LLMs without understanding their limitations\n* Many of those people are those with money\n* The term \"AI\" has been used to label everything under the sun that contains an algorithm of some sort\n* Banana poopy banana (just to make sure ppl are reading this)\n* There have been a number companies that overpromised for AI, and often were using humans as a \"temporary\" solution until they figured out the AI, which they never did (hence the gag, \"AI\" stands for \"An Indian\")\n\n\nBut I really don't think they're nearly as bad as most lemmy users make them out to be. I was going to respond to all the takes but there's *so many* I'll just make some general points\n\n* SOTA (State of the Art) models match or beat most humans besides experts in most fields that are measurable\n* I personally find AI is better than me in *most* fields except ones I know well. So maybe it's only 80-90% there, but it's there in like *every single field* whereas I am in like 1-2\n* LLMs can also do all this in like 100 languages. You and I can do it in like... 1, with limited performance in a couple others\n* Companies often use smaller/cheaper models in various products (e.g google search), which are understandably much worse. People often then use these to think all AI sucks\n* LLMs aren't just memorizing their training data. They can reason, as recent reasoning models more clearly show. Also, we now have near frontier models that are like 32B, or 21B GB in size. You cannot fit the entire internet in 21GB. There is clearly higher level synthesizing going on\n* People often tend to seize on superficial questions like the strawberry question (which is essentially an LLM blind spot) to claim LLM's are dumb. \n* In the past few years, researchers have had to come up with countless newer harder benchmarks because LLMs kept blowing through previous ones (partial list here: https://r0bk.github.io/killedbyllm/)\n* People and AI are often not compared fairly, for isntance with code, people usually compare a human with feedback from a compiler, working iteratively and debugging for hours to LLMs doing it in one go, no feedback, beyond maybe a couple of back and forths in a chat\n\n---\n\nAlso I did say *willfully* ignorant. This is because you can go and try most models for yourself right now. There are also endless benchmarks constantly being published showing how well they are doing. Benchmarks aren't perfect and are increasingly being gamed, but they are still decent.",
+      "gold": "analysis",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Of course no one wants to pay them... But they filter out the toxicity, and pay with their sanity, to make these spaces even enjoyable and usable for us normal people.",
+      "gold": "proposal",
+      "predicted": "analysis"
+    },
+    {
+      "text": "I'm not talking about any facial-hair style that includes a beard. I'm talking about these guys who have brought back the \"just a moustache, and it's a really ugly, really creeper-ish moustache\" style. \n\nYou see this shit on influencers, pro sports players in every league, random motherfuckers working at Wal-Mart, random dudes out in public, professionals in all industries, and anywhere else you can think of. Just everywhere. It seems to cut across all social strata. I particularly see this shit on white dudes, but maybe a lot of Black, Latino, and Asian dudes are doing it, too, and I just haven't noticed as much, because (I guess this could be controversial???) it just doesn't look nearly as bad on those guys. \n\nBut these young white dudes, rocking the 1970s creepo 'stache really are everywhere AND I JUST DON'T FUCKING UNDERSTAND.\n\nGuys, it's fucking hideous. It looks good on NOBODY. Occasionally, you'll see a guy with one of these, and he's just so naturally, GQ-cover handsome that he powers through the debuff, and still looks okay. But that same guy would look EVEN BETTER if he didn't have a horrible moustache.\n\nPlease stop. I don't know if this is some kind of ironic thing, or if it started as an ironic thing, only to become normalized. But just please stop. \n\nEspecially stop, if you legit cannot grow a moustache. Either shave that shit or pair it with a beard of some description. Obviously, I'm an asshole for telling you what to do with your face, but as a middle-aged guy, I just feel like saying this shit, as advice if nothing else.\n\nI remember when ugly-ass, creepy-ass moustaches were still in fashion, in the 1980s. They were awful and ugly. And then people regained their sanity. But then, somehow, that shit came back, about ten or twelve years ago. And that shit needs to be sent back to fashion hell.",
+      "gold": "hot_take",
+      "predicted": "proposal"
+    },
+    {
+      "text": "I just got permanently banned from a community for making a single harmless remark on a single post that was right there in the main feed. It's not a community I'm super active in so it's not like devastating, but it is annoying \n\nIf your precious little community is full of so many delicate sensitive people who can't even be reminded that another viewpoint *even exists*, then you should really protect them by defederating and having everyone join your private website \n\nThe mod has literally removed like 75% of the comments and banned everyone lol \n\nI don't know about anyone else, but I don't have time to read every rule for every community that pops up when I'm in view all",
+      "gold": "personal_preference",
+      "predicted": "personal_preference"
+    },
+    {
+      "text": "It has no additional flavor other than adding sweetness. I would rather have no syrup than \"fake\" pancake syrup (e.g. Ms Butterworths).\n\nI much prefer maple syrup. Of course it is expensive, so the Log Cabin table syrup is a good substitute that still has actual flavor and is affordable.\n\nEdit: Also if you still want maple flavor for cheaper, a mix of half maple and half cane works good, like the stuff at Cracker Barrel. It doesn't deserve the hate.",
+      "gold": "personal_preference",
+      "predicted": "analysis"
+    },
+    {
+      "text": "The weight of the material is supported by your shoulders, and not your hips, which is far more comfortable in general\n\nIn addition to having more room for pockets, overalls can carry heavier things without falling down, nor need for a belt\n\nSince the weight of the material is carried at the shoulders, bending down at the waist is easier and less restricted.  The waistband no longer needs to be tight, since it no longer serves a functional purpose",
+      "gold": "analysis",
+      "predicted": "analysis"
+    },
+    {
+      "text": "The ability to up- and downvote posts and comments is useful but the score should not be displayed to the users and you shouldn't be able to enable it even if you wanted to. This means both, posts made by you as well as by others. \n\nNobody wants to see their messages get downvoted. This is bad for our mental health as individuals but especially as a group. It's like walking up to a person on the street, saying \"I don't like you\" and then moving on. You're free to not like (downvote) someone but they don't need to hear it. If you really want them to know then write a message and explain yourself. \n\nUpvotes on the other hand skews the reality and encourages groupthink. People say what is popular even if they don't fully buy it themselves and conversely refrain from saying things they truly believe because they then dont get the upvotes and get downvoted instead. \n\nSeeing the scores also primes the reader. When something is heavily upvoted for example you assume it to be true/good instead of using your own judgement to decide.",
+      "gold": "proposal",
+      "predicted": "hot_take"
+    },
+    {
+      "text": "*Before we get into it, let me just say that I understand that removing a major component of a dish may cause it to become something else. So cheeseless pizza may no longer technically be \"pizza\". To this I say: no one gives a fuck, please go officiate a spelling bee or whatever it is you do for fun, ya gatekeeping linguaFREAK.*\n\nI want to try to convince you to give cheeseless pizza a shot, because I think Big Cheese\u2122 has been depriving humanity of the true deliciousness of pizza for millennia.\n\nCheese on pizza (and this includes the cheese substitutes that you might find on vegan or vegetarian pizzas) is like taking a carefully-crafted meal, flavoured and spiced to perfection, and then saying to the customer \"hey, do you want me to dump a thick molten layer of bitter yellowish-white slime over everything? It'll completely overpower every other flavour on the dish, and will leave your mouth feeling weird and gross after you're done eating.\" and the customer is like \"HELL YEAH!\"\n\nIf you enjoy many toppings with lots of veg and whathaveyou, you are not getting the full experience when cheese is there cockblocking your tastebuds like an ugly friend at a bar. The sauce, the bread, the peppers, the onions, the 'shrooms, the pepperoni, they're all full of flavour and each flavour stands on its own and simultaneously complements the other flavours. Dumping a pound of cheese on top of it makes it all coalesce into a murky nondescript lump, something akin to trying to listen to music in a wind tunnel while wearing a thick deerstalker hat with the ear flaps down. It's like the difference between having an intellectually-stimulating conversation with a like-minded person, and trying to be heard as you discuss football stats with a drunk stranger in a bar where the sound system is cranked up to max volume at all times.\n\nIf you're someone who just likes a straight Margherita pizza, where cheese is very much the \"main event\", then this doesn't really apply. I concede that even the most delicious pizza sauce and most fancy base bread are not quite enough to blow anyone's mind with flavour if that's *all* you're working with. But if you like adding toppings, allow *them* to be the main event for one day, and when you do, give yourself over the involuntary urge to start singing A Whole New World when the flavours awaken hitherto dormant olfactory neurons that you didn't even know you had.\n\nIn many online pizza shops, you can untick \"cheese\" when choosing your toppings, and they'll respect your choice, and you won't receive a wellness check from the police or anything. You can do it with Domino's, and many of my local pizza places do it, too. You can also buy frozen pizzas sans cheese or cheese substitutes, although this is fairly rare (they think removing cheese means you need to replace it with some other gunk that does the same job, which is obviously not helping matters). And of course, you can make or buy bases and build your own pizza at home.\n\nTry it. TRUST ME BRO.\n\n#FuckCheeseOnPizza",
+      "gold": "personal_preference",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Ignoring the security implications, I miss kb large old raw html websites that loaded instantly on DSL internet. Nowadays shit is too fancy because hardware allows that, but I feel we're just constantly running into more bugs first and then worry about them later.\n\nEdit: I've thought more about it, and I think I just missed the simplicity of the internet back then. There's just too much bloat these days with ad trackers and misinformation. I kinda forgot just how bright and eye jarring most old UIs were lol.",
+      "gold": "personal_preference",
+      "predicted": "analysis"
+    },
+    {
+      "text": "I\u2019m talking about the one that swaps recommended videos and the description/comments. Who doesn\u2019t want to glance at the description or pinned comment without having to scroll outside of the video? Limited width for reading, amirite? Plus this can create parity of recommendations with the front page, which should decrease maintenance and bugs, along with providing the ability to actually click on the channels.\r\n\r\nNote that I\u2019m less supportive of extending this to theater mode.",
+      "gold": "analysis",
+      "predicted": "analysis"
+    },
+    {
+      "text": "(Content warning, discussions of SA and misogyny, mods I might mention politics a bit but I hope this can be taken outside the context of politics and understood as a discussion of basic human decency)\n\nWe all know how awful Reddit was when a user mentioned their gender. Immediate harassment, DMs, etc. It's probably improved over the years? But still awful.\n\nUntil recently, Lemmy was the most progressive and supportive of basic human dignity of communities I had ever followed. I have always known this was a majority male platform, but I have been relatively pleased to see that positive expressions of masculinity have won out.\n\nAll of that changed with the recent \"bear vs man\" debacle. I saw women get shouted down just for expressing their stories of being sexually abused, repeatedly harassed, dogpiled, and brigaded with downvotes. Some of them held their ground, for which I am proud of them, but others I saw driven to delete their entire accounts, presumably not to return.\n\nAnd I get it. The bear thing is controversial; we can all agree on this. **But that should never have resulted in this level of toxicity!**\n\nI am hoping by making this post I can kind of bring awareness to this weakness, so that we can learn and grow as a community. We *need* to hold one another accountable for this, or the gender gap on this site is just going to get worse.",
+      "gold": "analysis",
+      "predicted": "analysis"
+    },
+    {
+      "text": "The whole furry thing is creepy as hell. It's weird. Wanting to have sex with anthropomorphized animals is not a thing that should be normalized.\n\nAnd it's even creepier when they add things like \"kitten\" or showing anthropomorphized animal kids.\n\nAnd thank you to Unruffled [they/them] / Flatworm7591\n@lemmy.dbzer0.com for this sane and reasonable response.\n\n![](https://lemmy.world/pictrs/image/0384ef96-271a-4dac-a4cc-d2a5b7c50fa2.jpeg)\n\nAnd thanks to recursive_recursion who seems to be an alt of Flatworm for continuing that sane and reasonable response. Note that in over 1,400 comments here I've never once said a single word against trans people. Not once.\n\n![](https://lemmy.world/pictrs/image/40473cd0-150d-408b-ae3b-bda9dadfd9eb.jpeg)\n\nIt really bothers me when people lie about racism. So many people really do experience it so much in life, and lying using false racism accusations as a sword and shield to make other people look bad and make themselves look like the victim is demeaning to every real instance people suffer.\n\nHopefully one day this person realizes that lying about transphobia for the same reasons does the same thing. ",
+      "gold": "hot_take",
+      "predicted": "hot_take"
+    },
+    {
+      "text": "I was reading about Mel Gibson's anti-semitic rants, and his apology about being drunk* when I remembered this meme. I agree with the meme, that our brains tend to feed us what we've heard from our environment, but our conscious mind overrides that with our processed thoughts.\n\nPeople use \"he didn't mean it, he was drunk/high\" as an excuse for racist/misogynist/whateverist comments. The response is typically \"you don't become racist when drunk, you just drop your inhibitions and reveal who you are.\"\n\nBut if you agree with the First Thought meme, what if being impaired isn't revealing what you really think, but is preventing you from thinking at all, and just getting stuck on your conditioned response?\n\n*Gibson is just an example. This post is not about litigating whether he personally is racist, but about this sort of behavior in general.",
+      "gold": "analysis",
+      "predicted": "hot_take"
+    },
+    {
+      "text": "Humans who run instances are real people who have jobs and mortgages and kids. I also like having piracy communities around to balance the greedy ass corporations trying to control media and copyright\u2026I\u2019m glad to know they are there if I need them or feel like screwing around with it. I just wonder if the people ranting all indignantly acting like instances are competing for their usership would feel the same if the most active instance was on a server physically sitting in their basement, or paid for by money tied to them in the real world. Yes it seems pretty unlikely that you\u2019re ever going to run into issues with law enforcement, copyright claims, lawsuits\u2026but how much would you risk for a fucking hobby you do for free? Would you risk your house? Your job? I would not. Grow up. No one cares what instance you use.",
+      "gold": "hot_take",
+      "predicted": "analysis"
+    },
+    {
+      "text": "\"The US should do X and they suck because they don't!\" \nEach state has it's own laws on education. Some places suck, some do not. It's not a monolith. \n\n\"The US has shitty beer lol\" We have _some_ of the best beer in the world but it's local/state/region only and never exported unlike fancy Euro beer.\n\nThe US for better or worse is a, hmmm \ud83e\udd14 a unity of government states under a federation called America. It's very hard to get federal laws and bills passed, especially for education. The states want the power to chooses for themselves what they do, and the federal government hangs above them, sometimes intervening. \n\nWe are a huge country that has a relatively unique circumstance of government, population, and young brutal history. I'm a Californian and I live in the Bay Area which almost literally a different country than most of America, especially the South and Midwest.\n\nI'm so sick of people, especially smug Europeans, talking like they know Americans and America but they don't really know shit about us except the movies and going to NYC and Miami.\n\nYes I am having a bad day. \n\nTo be honest I love Europe and have friends there that I miss dearly! I've been many times. But dumbassery is dumbassery. \n\nEDIT: You people are an exhausting swarm of pecking ravens and I've spent all the \"toxic\" energy I want arguing with half you because you just hear what you want to hear and fit the stereotype I loathe I think you only commented out of trained reflex and a few of you are just unsophisticated haters. Whatever, fuck you, and all that jazz. ",
+      "gold": "analysis",
+      "predicted": "analysis"
+    },
+    {
+      "text": "I\u2019ve never understood why people get earrings, despite them often being unattractive.",
+      "gold": "personal_preference",
+      "predicted": "analysis"
+    },
+    {
+      "text": "The vast majority of interactions with the public can be taken care of with non-lethal means, tasers, etc... (if any are even necessary).  \n\nLethal weapons should be in a remote lock holster in their cruiser, and must be unlocked remotely by a supervisor on a per-case basis depending on the facts at hand (suspect's history, potential risk, etc...)\n\nMaybe that's pie in the sky optimism, I don't know. ",
+      "gold": "proposal",
+      "predicted": "proposal"
+    },
+    {
+      "text": "I feel like I'm the only one in my life who holds this opinion, but I have never tasted a combination of chocolate and fruit that wasn't **significantly** worse than the individual components. \n\n- Chocolate covered raisins? Blegh. \n- Chocolate dipped strawberries? I'll eat the shell then the rest.\n- Raspberry bits in fancy chocolate? You've ruined it.\n- Candied apple? Just plain caramel please, no chocolate. \n- Chocolate fondue? I'll stick to the marshmallows and graham crackers, thanks. \n- Gorp mix? I'm selecting handfuls with either raisins + peanuts or m&ms + peanuts, no blending.\n\nNow I know taste buds are subjective, but how is it that folks will say a mixed bowl of m&ms and skittles is diabolical, yet happily chow down on other fruity chocolate combos? Give me my delicious fruit and chocolate - _separately_!",
+      "gold": "personal_preference",
+      "predicted": "personal_preference"
+    },
+    {
+      "text": "Single door is nicer bc you only have to open one door, the french doors you often have to open both bc they are too small to get to things unless it's in the door compartment. Opening or closing both doors with things in your hands gets old, and if you want to get into the meat drawer you have to open both sides fully then slide a huge tray out to get to it. Good luck opening one door and trying to squeeze a casserole dish in.\n\nSingle doors close somewhat automatically, might need a knee or hip nudge. French doors are more manual, closing each door individually. French doors often beeping bc they didn't get closed correctly. They have a little flap between the doors that gets worn out and loose, so that will also make it annoying to close.\n\nSingle doors open up out of the way, french doors always have one side flapping in the way making sure neither side of the counter can be used easily.\n\nSingle door type fridges are usually very simple, easy to fit a lot of stuff in them, french door fridges seem bloated, tons of wasted space.\n\nFrench doors are more expensive and seen as a luxury item, despite single door fridges being common due to cost I think people perceive french doors to be an upgrade, but imo it is a downgrade, thus unpopular. ",
+      "gold": "personal_preference",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Per Wikipedia, RAS Syndrome is short for Redundant Acronym Syndrome and was coined in 2001 in a light-hearted column in New Scientist.\n\n> A person is said to \"suffer\" from RAS syndrome when they redundantly use one or more of the words that make up an acronym or initialism with the abbreviation itself.\n\ne.g.  \"I had a hard time entering my PIN number into the ATM machine because its GUI interface was unintuitive\"\n\nThe sentence still makes sense and, depending on the acronyms used, is more clear.  Different industries use the same acronyms for different things.  If you're working with people from different industries, sometimes those overlap; having the last word spelled out can help distinguish which is being used.\n\nThere are few linguistic hills I'll die on, but this is one of them.  This post brought to you by a coworker who didn't like that I said \"PIN number\".",
+      "gold": "analysis",
+      "predicted": "analysis"
+    },
+    {
+      "text": "I hate people who treat them like some toys and fantasize about them. That makes me think they are in some sort of death cult. That they found socially acceptable way to love violence. \n\nI would still get one for safety but it is a tool made for specifically one thing. To pierce the skin and rip through the inner organs of a person. \n\nThey can serve a good purpose but they are fundamentally grim tools of pain and suffering. They shouldn\u2019t be celebrated and glorified in their own right, that is sick. They can be used to preserve something precious but at a price to pay.\n",
+      "gold": "hot_take",
+      "predicted": "analysis"
+    },
+    {
+      "text": "I like the bit of minty burn and it doesn't feel greasy afterwords like the non-alcohol based ones I've tried.",
+      "gold": "personal_preference",
+      "predicted": "analysis"
+    },
+    {
+      "text": "The people who say they need 3 cups of black coffee to start their day are just addicts with a high tolerance that experience mild withdrawal symptoms each morning. \n\nIf you feel like that, it's your body crying for you to take a break. \n\nIf you like an occasional cup of coffee or energy drink to get through something, then that's fine. But if you ever feel like one isn't working like it used to, you should take a break from caffeine to reset your tolerance, not up the dosage like an addict. ",
+      "gold": "analysis",
+      "predicted": "analysis"
+    },
+    {
+      "text": "my unpopular opinion is that they are a waste of time and effort.",
+      "gold": "hot_take",
+      "predicted": "hot_take"
+    },
+    {
+      "text": "As a widespread cultural phenomenon in the US, I dislike that Halloween is becoming aggregated to the rich neighborhoods. Perfectly good lower class neighborhoods that are exceptionally decorated for the holiday are soulless on *the* night. \n\nNot bagging on trunk or treats or anything like thay. My mixed zone, mixed generation, vibrant neighbourhood is so cute on Halloween but then there is no real community engagement. It makes the holiday kinda sad and individualistic except for those lucky enough to have money. Another loosening the fabric of community in the US. \n\nJust my two cents.\n\nEdit: FWIW I dont blame parents for wanting to give their children the best Halloween experience by trucking them to such neighborhoods. The problem is not them, it is the wealth disparity.",
+      "gold": "hot_take",
+      "predicted": "hot_take"
+    },
+    {
+      "text": "I just find they're overplayed, overrated, and kind of cringey. \n\nSka is one of my go to genres, a favorite, but I wish Sublime would go away. Every time I hear them I can't get their songs out of my head for much longer than I would like. Every time. \n\nI also used to hear them way too much in a place outside the US, which outside of shitty pop music was one of those \"American\" bands or whatever they thought, so bars played them. A lot. ",
+      "gold": "personal_preference",
+      "predicted": "analysis"
     }
   ]
 }
