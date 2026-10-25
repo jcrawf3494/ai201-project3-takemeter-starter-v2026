@@ -337,14 +337,18 @@ settings the same. The expanded dataset had 87 `analysis`, 90 `hot_take`, 106
 
 | Measure | Baseline | Trained | Difference |
 |---|---|---|---|
-| Overall accuracy |  |  |  |
-| Macro F1 |  |  |  |
-| F1 — `label_one` |  |  |  |
-| F1 — `label_two` |  |  |  |
+| Overall accuracy | 0.345 | 0.618 | +0.273 |
+| Macro F1 | 0.296 | 0.601 | +0.305 |
+| F1 — `analysis` | 0.417 | 0.560 | +0.143 |
+| F1 — `hot_take` | 0.414 | 0.571 | +0.158 |
+| F1 — `personal_preference` | 0.211 | 0.718 | +0.507 |
+| F1 — `proposal` | 0.143 | 0.556 | +0.413 |
 
 **What I predicted before I looked:**
 <!-- Milestone 1 asks you to write this BEFORE seeing the trained numbers. A
      prediction made afterwards isn't one. -->
+
+     I think it will do better on overall accuracy. At least that is what I am hoping. 
 
 **What the gap actually means:**
 <!-- If the baseline matched your trained model, your fine-tuning added
