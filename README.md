@@ -353,8 +353,7 @@ settings the same. The expanded dataset had 87 `analysis`, 90 `hot_take`, 106
 **What the gap actually means:**
 <!-- If the baseline matched your trained model, your fine-tuning added
      nothing — and that is a real finding, not a failure. Say it plainly. -->
-
-
+My fine tuning increased the overall accuracy and F1 on all accounts and I think with some more fine tuning that could increase even more. 
 
 ---
 
@@ -365,29 +364,36 @@ settings the same. The expanded dataset had 87 `analysis`, 90 `hot_take`, 106
 
 | Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
 |---|---|---|---|---|---|
-| 1.  |  |  |  |  |  |
-| 2.  |  |  |  |  |  |
-| 3.  |  |  |  |  |  |
-| 4.  |  |  |  |  |  |
-| 5.  |  |  |  |  |  |
+| 1. Overall accuracy | At least 0.85 | 0.618 | 0.564 | 0.545 | Fail |
+| 2. Per-label F1 | Analysis ≥ 0.55; all other labels ≥ 0.60 | analysis 0.560; hot_take 0.571; personal_preference 0.718; proposal 0.556 | analysis 0.741; hot_take 0.222; personal_preference 0.579; proposal 0.593 | analysis 0.552; hot_take 0.211; personal_preference 0.821; proposal 0.348 | Fail |
+| 3. Robust to capitalization / punctuation | At least 0.90 agreement after formatting changes | — | — | — | Not measured |
+| 4. hot_take vs personal_preference confusion | No more than 0.20 of predictions cross between the two labels | — | — | — | Not measured |
+| 5. High-confidence correctness | At least 0.85 accuracy when confidence ≥ 0.75, with at least 10 such cases | — | — | — | Not measured |
 
 ### Confusion matrix
 
 <!-- ⚠️ TYPED AS A MARKDOWN TABLE. The notebook prints one ready to paste.
      An image of a matrix earns nothing. -->
 
-| true \ predicted |  |  |  |
-|---|---|---|---|
-| **** |  |  |  |
-| **** |  |  |  |
-| **** |  |  |  |
+| true \ predicted | analysis | hot_take | personal_preference | proposal |
+|---|---|---|---|---|
+| **analysis** | 7 | 3 | 2 | 1 |
+| **hot_take** | 1 | 8 | 5 | 0 |
+| **personal_preference** | 0 | 2 | 14 | 0 |
+| **proposal** | 4 | 1 | 2 | 5 |
+
 
 **My biggest off-diagonal number, and what it means:**
 <!-- Not "the model made mistakes" — WHICH boundary it didn't learn, and which
      direction. "7 real analysis posts were called hot_take and only 3 went the
      other way" is a direction, not just an error rate. -->
 
+Biggest confusion: 5 real `hot_take` posts called `personal_preference`.
+The other direction: 2 real `personal_preference` posts called `hot_take`.
 
+That's lopsided — the model leans toward `personal_preference` on this pair.
+A direction like that usually points at your labelling rather than the
+model. Your agreement report is the thing that can tell you which.
 
 ---
 
@@ -398,11 +404,11 @@ settings the same. The expanded dataset had 87 `analysis`, 90 `hot_take`, 106
 
 | # | Criterion | Target | Verdict | How I decided |
 |---|---|---|---|---|
-| 1 |  |  |  |  |
-| 2 |  |  |  |  |
-| 3 |  |  |  |  |
-| 4 |  |  |  |  |
-| 5 |  |  |  |  |
+| 1 | Overall accuracy | At least 0.85 on each seed | MISSED | Accuracy was 0.618, 0.564, and 0.545 for seeds 42, 7, and 2024; none reached 0.85. |
+| 2 | Per-label F1 | `analysis` ≥ 0.55; every other label ≥ 0.60 on each seed | MISSED | The lowest F1s across seeds were 0.552 (`analysis`), 0.211 (`hot_take`), 0.579 (`personal_preference`), and 0.348 (`proposal`). Only `analysis` met its threshold in all three runs. |
+| 3 | Formatting robustness | At least 0.90 label agreement after capitalization/punctuation changes, on each seed | UNMEASURED | No capitalization/punctuation comparison was run or saved for any seed. |
+| 4 | `hot_take` / `personal_preference` confusion | No more than 0.20 of the examples in this two-label group are cross-predicted, on each seed | MISSED | Cross-predictions were 7/30 (0.233) for seed 42, 8/30 (0.267) for seed 7, and 5/30 (0.167) for seed 2024. The target had to hold on all three seeds. |
+| 5 | High-confidence correctness | At least 0.85 accuracy at confidence ≥ 0.75, with at least 10 such predictions per seed | UNMEASURED | The saved results report accuracy for the most-confident third, not accuracy and sample count at the 0.75 threshold, so this target cannot be checked. |
 
 **Diagnoses**
 
@@ -415,6 +421,46 @@ settings the same. The expanded dataset had 87 `analysis`, 90 `hot_take`, 106
      have that can tell a LABELLING problem from a MODEL problem, and this
      section is graded on whether you used it that way. -->
 
+**1. Overall accuracy — missed.** All three results are well below 0.85
+(0.545–0.618), so this is not a one-seed fluctuation. The four-label test
+split has only 12–16 examples per label, and several labels have low F1, which
+is consistent with the model not learning reliable boundaries from this
+amount of data. It does not establish whether inconsistent training labels
+also contributed: the agreement section below is still blank, and the staff
+reference-label file needed to calculate agreement is not in the repository.
+
+**2. Per-label F1 — missed.** `analysis` clears its 0.55 threshold in all
+three runs (minimum 0.552), but `hot_take`, `personal_preference`, and
+`proposal` do not consistently meet 0.60. In particular, `hot_take` F1 falls
+to 0.222 and 0.211 in two seeds, while `proposal` falls to 0.348. The
+per-seed changes and the cross-label errors in the confusion matrices point
+to unstable learned boundaries rather than one clearly underrepresented
+label; the test supports are similar (12–16). I cannot use the required
+agreement evidence to decide whether those boundaries were also applied
+inconsistently when labeling, because that report has not been completed.
+
+**3. Formatting robustness — unmeasured.** There are no paired original and
+format-altered predictions in the saved results, so there is no evidence to
+call this either a pass or a miss.
+
+**4. `hot_take` / `personal_preference` confusion — missed.** The pair exceeds
+the 0.20 limit in seeds 42 and 7, and passes only in seed 2024. The confusion
+is asymmetric in seed 42 (5 `hot_take` posts were predicted as
+`personal_preference`, versus 2 in the reverse direction) and changes across
+seeds, which shows the model has not learned a stable distinction. This is
+evidence of a difficult model boundary, but it cannot tell me whether my
+training labels were inconsistent: the staff agreement report and its
+adjudications are blank.
+
+**5. High-confidence correctness — unmeasured.** The saved “most-confident
+third” accuracy is not the requested confidence-at-least-0.75 measurement,
+and the number of predictions at that threshold is not recorded. I cannot
+infer a verdict from the different statistic.
+
+**Evidence limitation:** I should complete the agreement report before
+deciding that any missed score was caused by inconsistent labeling rather
+than a model/data limitation. The local `data/my_staff_labels.csv` contains my
+labels, but the staff reference labels needed for comparison are absent.
 
 
 ---
