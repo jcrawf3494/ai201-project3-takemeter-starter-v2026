@@ -1,13 +1,13 @@
 {
   "seed": 42,
   "n_test": 55,
-  "accuracy": 0.5454545454545454,
-  "f1_macro": 0.5182539682539682,
+  "accuracy": 0.509090909090909,
+  "f1_macro": 0.46096638655462185,
   "per_label": {
     "analysis": {
-      "precision": 0.5454545454545454,
+      "precision": 0.5,
       "recall": 0.46153846153846156,
-      "f1": 0.5,
+      "f1": 0.48,
       "support": 13
     },
     "hot_take": {
@@ -23,18 +23,18 @@
       "support": 16
     },
     "proposal": {
-      "precision": 0.6666666666666666,
-      "recall": 0.3333333333333333,
-      "f1": 0.4444444444444444,
+      "precision": 0.4,
+      "recall": 0.16666666666666666,
+      "f1": 0.23529411764705882,
       "support": 12
     }
   },
   "confusion": {
     "analysis": {
       "analysis": 6,
-      "hot_take": 3,
+      "hot_take": 2,
       "personal_preference": 3,
-      "proposal": 1
+      "proposal": 2
     },
     "hot_take": {
       "analysis": 2,
@@ -43,21 +43,21 @@
       "proposal": 1
     },
     "personal_preference": {
-      "analysis": 0,
-      "hot_take": 2,
+      "analysis": 1,
+      "hot_take": 1,
       "personal_preference": 14,
       "proposal": 0
     },
     "proposal": {
       "analysis": 3,
-      "hot_take": 3,
+      "hot_take": 5,
       "personal_preference": 2,
-      "proposal": 4
+      "proposal": 2
     }
   },
   "confidence": {
-    "mean_when_right": 0.5304799675941467,
-    "mean_when_wrong": 0.4177875518798828,
+    "mean_when_right": 0.36436429619789124,
+    "mean_when_wrong": 0.31705108284950256,
     "accuracy_most_confident_third": 0.7777777777777778,
     "accuracy_least_confident_third": 0.2222222222222222,
     "n_per_third": 18

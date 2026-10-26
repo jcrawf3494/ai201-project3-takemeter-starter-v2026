@@ -554,6 +554,41 @@ were not measured, so this run cannot show whether the change affected them.
 <!-- If it didn't, say so. Relabelling that didn't help is a genuinely
      interesting result and earns full credit. -->
 
+### Stretch Feature: Second Measured Improvement
+
+**What I changed:** For a second experiment, I lowered the learning rate from
+`2e-5` to `1e-5`. I kept the dataset, labels, six epochs, batch size of 16,
+maximum length of 256 tokens, and three seeds the same.
+
+**Why I chose it:** The earlier scores moved around quite a bit across seeds.
+I wanted to see whether smaller training updates would make learning more
+stable and improve accuracy and F1. This was a test, not a guaranteed fix.
+
+**Run-label note:** I forgot to change `RUN_LABEL` from `"after"`, so this
+third run was initially written to `results_three_seeds_after.json`. I copied
+those results to `results_three_seeds_third.json` so this run is preserved
+under its own name. The `results_three_seeds_after.json` file currently also
+contains the third-run results; the original sequence-length run remains
+recorded in the After table above and in the repository's earlier version.
+
+#### Run Log — Third Run
+
+| Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
+|---|---|---|---|---|---|
+| 1. Overall accuracy | At least 0.85 | 0.509 | 0.564 | 0.564 | Fail |
+| 2. Per-label F1 | Analysis ≥ 0.55; all other labels ≥ 0.60 | analysis 0.480; hot_take 0.429; personal_preference 0.700; proposal 0.235 | analysis 0.696; hot_take 0.333; personal_preference 0.651; proposal 0.500 | analysis 0.600; hot_take 0.211; personal_preference 0.789; proposal 0.435 | Fail |
+| 3. Robust to capitalization / punctuation | At least 0.90 agreement after formatting changes | — | — | — | Not measured |
+| 4. hot_take vs personal_preference confusion | No more than 0.20 of the examples in this pair cross-predicted | 6/30 (0.200) | 8/30 (0.267) | 6/30 (0.200) | Fail |
+| 5. High-confidence correctness | At least 0.85 accuracy at confidence ≥ 0.75, with at least 10 such predictions | — | — | — | Not measured |
+
+**Did it help, and how do I know:** No. Average accuracy fell from 0.582 in
+the sequence-length run to 0.545 with the lower learning rate, and average
+macro F1 fell from 0.546 to 0.505. Accuracy was lower for seeds 42 and 7 and
+unchanged for seed 2024; none reached the 0.85 target. The per-label F1
+target still failed, and the confusion target failed because seed 7 was over
+0.20. The formatting and fixed-confidence-threshold checks were not measured
+in this run.
+
 
 
 ---
@@ -564,22 +599,23 @@ were not measured, so this run cannot show whether the change affected them.
 
 **1. Overall accuracy — still missed.** I would next try a larger, more
 representative set of labeled examples and evaluate it across the same three
-seeds. I stopped after changing the maximum sequence length because I wanted
-to test one change at a time; the 256-token run still only reached 0.545–0.636
-accuracy, below the 0.85 target.
+seeds. I stopped after the sequence-length and learning-rate experiments
+because I wanted to test one change at a time; accuracy remained below the
+0.85 target in both.
 
 **2. Per-label F1 — still missed.** I would inspect more errors for `hot_take`
 and `proposal` and add carefully labeled examples or clarify their boundary
-rules before trying another training change. I stopped after the sequence
-length experiment: the weakest F1s remained 0.222 for `hot_take` and 0.364
-for `proposal`, and the incomplete agreement report means I cannot tell whether
-more data or more consistent labels is the right next fix.
+rules before trying another training change. I stopped after the second
+experiment because the lower learning rate did not improve the results
+consistently: the third run's lowest `hot_take` F1 was 0.211 and its lowest
+`proposal` F1 was 0.235. The incomplete agreement report means I cannot tell
+whether more data or more consistent labels is the right next fix.
 
 **4. `hot_take` / `personal_preference` confusion — still missed.** I would
 review examples from this pair and apply the written distinction consistently:
 personal likes or experiences belong in `personal_preference`, while broad
 unsupported judgments belong in `hot_take`. I stopped after the one-setting
-experiment; the after run still cross-predicted 7/30 examples for seed 42,
+experiments; the third run still cross-predicted 8/30 examples for seed 7,
 over the 0.20 limit, and I have not completed the agreement check needed to
 know whether my own labels contributed.
 
@@ -679,8 +715,11 @@ not a claim about their specific text.
   instead of `2e-5`) first, while keeping the batch size at 16, so only one
   setting would change.
 - *What I changed:* I set the notebook's learning rate to `1e-5` for a
-  possible next run. I have not run or evaluated that third experiment yet,
-  so I am not claiming it improved the model.
+  third run and evaluated the same three seeds. I accidentally left
+  `RUN_LABEL = "after"`, so I copied those metrics to
+  `results_three_seeds_third.json`. The lower learning rate did not improve
+  the average accuracy or macro F1, and I recorded that honestly in the third
+  run log.
 
 
 <!-- ═════════════════════════════════════════════════════════════════════
