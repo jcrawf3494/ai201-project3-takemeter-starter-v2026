@@ -606,6 +606,81 @@ real `hot_take` posts `personal_preference` (and 2 in the reverse direction),
 so it has not reliably learned the boundary between a broad judgment and a
 personal opinion.
 
+### Stretch Feature: Confidence Check
+
+**Declared feature:** Compare whether the most-confident predictions are
+correct more often than the least-confident predictions, and report the
+numbers for all three seeds before and after the improvement.
+
+**Implementation and result:** The notebook's evaluation code ranks held-out
+posts by the model's confidence and records accuracy for the most-confident
+third and least-confident third (18 posts in each group). The saved results
+show that the most-confident third was more accurate in all six runs:
+
+| Seed | Before: most confident third | Before: least confident third | After: most confident third | After: least confident third |
+|---|---:|---:|---:|---:|
+| 42 | 0.778 | 0.556 | 0.778 | 0.222 |
+| 7 | 0.778 | 0.500 | 0.778 | 0.389 |
+| 2024 | 0.778 | 0.278 | 0.833 | 0.333 |
+
+Confidence ranking was useful as a rough signal, but it does not establish the
+separate criterion about predictions at a fixed confidence threshold of 0.75;
+that threshold-specific accuracy and sample count were not saved.
+
+### Stretch Feature: Per-Label Error Write-Up
+
+**Declared feature:** Use the confusion matrix to identify the weakest label,
+show which other label it is confused with, and explain the boundary the
+model appears to be struggling with.
+
+**Implementation and result:** `hot_take` had the lowest mean F1 across the
+three seeds in both runs: 0.335 before and 0.350 after. The confusion matrices
+show a recurring error in which true `hot_take` posts are predicted as
+`personal_preference`:
+
+| Seed | Before: `hot_take` → `personal_preference` | After: `hot_take` → `personal_preference` |
+|---|---:|---:|
+| 42 | 5 | 5 |
+| 7 | 6 | 5 |
+| 2024 | 5 | 4 |
+
+This is a plausible boundary overlap: both labels express opinions without
+requiring checkable evidence, but `hot_take` is meant to be a broad judgment
+while `personal_preference` centers on the author's own likes or experiences.
+The saved results contain aggregate confusion counts, not the individual
+misclassified posts, so I cannot verify a shared wording or feature across
+those exact examples; the interpretation here is about the label boundary,
+not a claim about their specific text.
+
+## How I Used AI — Unit 6
+
+**Moment 1**
+
+- *What I asked for:* I asked AI to help interpret the three-seed results and
+  confusion matrices, and to suggest one improvement that could help accuracy
+  and F1.
+- *What came back:* It pointed out that scores varied across seeds and that
+  `hot_take` was repeatedly confused with `personal_preference`. It first
+  suggested adding examples to the thinnest label, then suggested increasing
+  the maximum sequence length because posts may be truncated.
+- *What I changed:* I had already added examples to the dataset in the
+  previous week, so I pushed back on repeating that recommendation. I chose
+  to test one training-setting change instead: increasing the maximum sequence
+  length from 128 to 256 tokens. I kept the other settings the same and
+  compared the same three seeds; the results were mixed rather than a
+  consistent improvement.
+
+**Moment 2**
+
+- *What I asked for:* After seeing the mixed results, I asked what other
+  training setting might be worth testing and whether changing the learning
+  rate or batch size was a better next experiment.
+- *What came back:* AI recommended testing a lower learning rate (`1e-5`
+  instead of `2e-5`) first, while keeping the batch size at 16, so only one
+  setting would change.
+- *What I changed:* I set the notebook's learning rate to `1e-5` for a
+  possible next run. I have not run or evaluated that third experiment yet,
+  so I am not claiming it improved the model.
 
 
 <!-- ═════════════════════════════════════════════════════════════════════
