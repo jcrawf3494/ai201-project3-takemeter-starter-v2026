@@ -521,21 +521,35 @@ labels, but the staff reference labels needed for comparison are absent.
 
 ## The Improvement
 
-**What I changed:**
+**What I changed:** I changed the maximum sequence length from 128 to 256
+tokens so the model could use more of each post instead of truncating as much
+text. I kept the data, labels, and other training settings the same, set
+`RUN_LABEL = "after"`, and ran the same three seeds.
 
-**Which diagnosis pointed at it:**
+**Which diagnosis pointed at it:** The low and seed-sensitive F1 scores and
+the repeated cross-label errors suggested the model might not be getting
+enough useful context from the posts. Increasing the token limit tests that
+possibility; it does not resolve whether any training labels were inconsistent
+because the agreement report is still incomplete.
 
 ### Run Log — After
 
 | Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
 |---|---|---|---|---|---|
-| 1.  |  |  |  |  |  |
-| 2.  |  |  |  |  |  |
-| 3.  |  |  |  |  |  |
-| 4.  |  |  |  |  |  |
-| 5.  |  |  |  |  |  |
+| 1. Overall accuracy | At least 0.85 | 0.545 | 0.636 | 0.564 | Fail |
+| 2. Per-label F1 | Analysis ≥ 0.55; all other labels ≥ 0.60 | analysis 0.500; hot_take 0.429; personal_preference 0.700; proposal 0.444 | analysis 0.846; hot_take 0.400; personal_preference 0.686; proposal 0.552 | analysis 0.545; hot_take 0.222; personal_preference 0.865; proposal 0.364 | Fail |
+| 3. Robust to capitalization / punctuation | At least 0.90 agreement after formatting changes | — | — | — | Not measured |
+| 4. hot_take vs personal_preference confusion | No more than 0.20 of the examples in this pair cross-predicted | 7/30 (0.233) | 5/30 (0.167) | 4/30 (0.133) | Fail |
+| 5. High-confidence correctness | At least 0.85 accuracy at confidence ≥ 0.75, with at least 10 such predictions | — | — | — | Not measured |
 
-**Did it help, and how do I know:**
+**Did it help, and how do I know:** Not consistently. Mean accuracy increased
+only slightly, from 0.576 before to 0.582 after, and mean macro F1 increased
+from 0.539 to 0.546. Seed 42 got worse (accuracy 0.618 to 0.545; macro F1
+0.601 to 0.518), while seeds 7 and 2024 improved. The overall accuracy target
+still failed on all three seeds, the per-label F1 target still failed, and
+the `hot_take` / `personal_preference` confusion target still failed because
+seed 42 remained above 0.20. The formatting and confidence-threshold targets
+were not measured, so this run cannot show whether the change affected them.
 
 <!-- If it didn't, say so. Relabelling that didn't help is a genuinely
      interesting result and earns full credit. -->
@@ -548,11 +562,49 @@ labels, but the staff reference labels needed for comparison are absent.
 
 <!-- For each criterion still missed: what you'd do, and why you stopped. -->
 
+**1. Overall accuracy — still missed.** I would next try a larger, more
+representative set of labeled examples and evaluate it across the same three
+seeds. I stopped after changing the maximum sequence length because I wanted
+to test one change at a time; the 256-token run still only reached 0.545–0.636
+accuracy, below the 0.85 target.
+
+**2. Per-label F1 — still missed.** I would inspect more errors for `hot_take`
+and `proposal` and add carefully labeled examples or clarify their boundary
+rules before trying another training change. I stopped after the sequence
+length experiment: the weakest F1s remained 0.222 for `hot_take` and 0.364
+for `proposal`, and the incomplete agreement report means I cannot tell whether
+more data or more consistent labels is the right next fix.
+
+**4. `hot_take` / `personal_preference` confusion — still missed.** I would
+review examples from this pair and apply the written distinction consistently:
+personal likes or experiences belong in `personal_preference`, while broad
+unsupported judgments belong in `hot_take`. I stopped after the one-setting
+experiment; the after run still cross-predicted 7/30 examples for seed 42,
+over the 0.20 limit, and I have not completed the agreement check needed to
+know whether my own labels contributed.
+
+**3. Formatting robustness — not measured.** I would create capitalization
+and punctuation variants of the same held-out posts and compare predictions
+for each seed. I stopped without running that separate test, so I cannot say
+whether this criterion was met.
+
+**5. High-confidence correctness — not measured.** I would calculate accuracy
+and the number of predictions with confidence at least 0.75 for each seed.
+I stopped without recording that threshold-specific output; the saved
+most-confident-third metric is not a substitute, so this criterion remains
+unverified.
 
 
 **The gap between what I meant my labels to capture and what the model
 learned:**
 <!-- Two sentences. Your confusion matrix is the evidence. -->
+
+I meant `analysis` to mean a claim supported by checkable evidence and
+`proposal` to mean a recommendation for change, but in the seed 42 confusion
+matrix the model called 4 real `proposal` posts `analysis`. It also called 5
+real `hot_take` posts `personal_preference` (and 2 in the reverse direction),
+so it has not reliably learned the boundary between a broad judgment and a
+personal opinion.
 
 
 
