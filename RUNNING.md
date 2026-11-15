@@ -329,3 +329,159 @@ before you push.
 
 **Do not delete and recreate this repository.** You submit the same URL both
 units.
+
+
+---
+
+## Capstone — opinion input and optional free hosting
+
+### Purpose
+
+Run the existing four-label fine-tuned TakeMeter classifier on a visitor's own
+opinion using the Streamlit form in `app.py`. The input form is the single
+new capability. Deploying that same app to Streamlit Community Cloud is
+optional hosted extra credit, not a second classification capability.
+
+### Local prerequisites
+
+- Python 3.11–3.13, project environment active
+- `pip install -r requirements.txt`
+- The original fine-tuned **four-label** model weights exported from the
+  notebook (not just the publicly available base DistilBERT model)
+
+The repository intentionally does not contain trained model weights, user
+submissions, passwords, or API tokens.
+
+### 1. Export the trained classifier
+
+Open `takemeter.ipynb` in the project folder and run the existing training
+cell (section 4) using the four labels. Immediately after the cell finishes,
+run this extra notebook cell:
+
+```python
+trainer.save_model("deployment_model")
+tokenizer.save_pretrained("deployment_model")
+```
+
+This writes the fine-tuned model and tokenizer to `deployment_model/`. That
+directory is ignored by Git, because the weights are large and must not be
+stored in ordinary Git commits. Check that it contains `config.json`, model
+weights (`model.safetensors` or `pytorch_model.bin`), and tokenizer files.
+
+Do not substitute the base `distilbert-base-uncased` checkpoint: that would
+not be your trained classifier. Make sure the checkpoint has the labels
+`analysis`, `hot_take`, `personal_preference`, `proposal`.
+
+### 2. Start the new capability locally
+
+From the repository root:
+
+```bash
+python -m pip install -r requirements.txt
+python -m unittest discover -s tests -v
+python test.py
+streamlit run app.py
+```
+
+Open the local URL Streamlit prints, enter your own opinion, and select
+**Classify opinion**. It displays one predicted category and model confidence.
+Invalid inputs show a message. The initial model load can take longer; the
+model is cached for subsequent classifications.
+
+The previous notebook, baseline, CSVs, and test harness remain available;
+the new app does not replace them.
+
+### 3. Collect required measurements and log evidence
+
+Criteria are in `criteria.md` under the Capstone heading, committed before
+extension results. Use the actual fine-tuned checkpoint for the three before
+trials:
+
+```bash
+python measure_extension.py --model ./deployment_model --phase before
+```
+
+The command performs three independent batches of ten synthetic valid
+opinions and six deliberately invalid inputs, prints five trial verdicts,
+saves `capstone_results_before.json`, and writes JSONL events under
+`logs/`. It also reports measured warm-request **wall-clock seconds**
+(no inference API charges). The 100/day compute estimate is calculated as
+`100 * measured seconds/request`, not from a pricing page.
+
+Paste at least ten **actual sanitized** JSONL records, including a rejected
+submission, into `README.md` under Capstone > **Instrumentation**. Never
+paste real visitors' opinions, keys, or unsanitized error messages. Report
+MET or MISSED for all five criteria, and diagnose the exact stage/mechanism
+of every miss.
+
+Make one targeted improvement **after** inspecting the first three trials,
+then repeat without changing criteria or test cases:
+
+```bash
+python measure_extension.py --model ./deployment_model --phase after
+```
+
+Add the second three-trial table, measured cost, and side-by-side before/after
+comparison to the Capstone README. Do not claim results before they exist.
+
+### 4. Free hosted extra credit: Streamlit Community Cloud
+
+The free tier may have CPU/RAM and uptime limits; verify real deployment
+before marking hosted extra credit complete.
+
+The ordinary GitHub repo contains code, not weights. Host the model files
+separately as a **public Hugging Face model repository** (model storage rather
+than a paid inference service), after confirming that the checkpoint includes
+no confidential training data or secrets.
+
+1. Create a Hugging Face account and a public model repository of your choosing.
+2. Upload the contents of `deployment_model/` (not the enclosing directory)
+   to that model repository. Include `config.json`, weights, and tokenizer.
+   Do not upload labeled CSVs, logs, credentials, or visitor opinions.
+3. Sign into https://share.streamlit.io with GitHub and create a Streamlit
+   application from repository
+   `jcrawf3494/ai201-project3-takemeter-starter-v2026`,
+   branch `main`, entrypoint `app.py`.
+4. In the **app's Streamlit secret settings** (not GitHub), configure:
+
+   ```toml
+   TAKEMETER_MODEL_ID = "YOUR_HF_USERNAME/YOUR_MODEL_REPOSITORY"
+   ```
+
+   This is a public model identifier, not a credential. If any real access
+   tokens are ever needed, store them in the hosted secret manager; never
+   publish or commit them.
+5. Deploy, open the actual public URL, enter a new opinion, and verify the
+   category and confidence are from your trained model.
+6. Copy the **real URL** to `README.md` under Capstone > **Running It** and
+   describe the deployment path. Do not invent a URL before deployment.
+
+**Hosting fallback:** GitHub Pages and Firebase Hosting serve static assets,
+not this Python/PyTorch app; they need a separate inference server or
+browser-model conversion. Supabase Edge Functions are not a Python/PyTorch
+hosting replacement. Check free-tier limitations before switching away from
+Streamlit. There is no requirement to pay for a model inference API.
+
+### Logging, privacy, and hosting limits
+
+`takemeter_inference.classify_opinion()` writes structured JSONL events to
+`logs/inference.jsonl` for both successes and failures. Fields include
+timestamp, input length/SHA-256, output or sanitized error, status, model ID,
+and measured duration. Raw visitor text is **not logged by default**. Leave
+`TAKEMETER_LOG_TEXT` unset on a public deployment.
+
+Files under `logs/`, `deployment_model/`, `.env`, and
+`.streamlit/secrets.toml` are Git-ignored. Keep all sensitive information
+out of public commits. Streamlit Community Cloud's local filesystem is
+ephemeral; logs may disappear after restart, so save privacy-safe assignment
+measurements locally. Persistent hosted logs would require separate private
+storage and are not implemented yet.
+
+### Capstone submission checklist
+
+The uploaded brief requires all five numeric acceptance criteria, three
+before and three after trials, at least ten real structured log entries plus
+a failure, measured cost and 100/day arithmetic, diagnoses, one measured
+improvement, and the Capstone README sections. Preserve the repo history
+and use at least eight meaningful new commits. The implementation alone
+does not establish that the runtime criteria passed.
