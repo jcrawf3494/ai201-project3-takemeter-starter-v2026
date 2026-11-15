@@ -759,3 +759,60 @@ not a claim about their specific text.
 ---
 
 📖 **How to run this project: [RUNNING.md](RUNNING.md)**
+
+
+---
+
+## Capstone
+
+**What This Extends**
+
+TakeMeter already classifies posts from the Lemmy unpopular-opinion dataset with a four-label fine-tuned DistilBERT classifier. The new capability lets someone enter **their own opinion** in a website and receive the original classifier's predicted label and confidence score. The four labels remain `analysis`, `hot_take`, `personal_preference`, and `proposal`. This does not replace the existing notebook, baseline, tests, or prior experiments.
+
+**The Shape**
+
+**Shape A — Extend one capability.** Add free-text prediction using the existing fine-tuned model, with input validation and a Streamlit form. **Extra credit, Path A — hosted:** make that same system accessible at a public URL with structured logging and measurement. Out of scope: creating a new label, changing the training dataset, replacing DistilBERT with a generative model, or adding a second classifier. The deployed app must use a saved four-label fine-tuned checkpoint rather than the untrained base model.
+
+**Running It**
+
+After exporting the trained checkpoint into `deployment_model/`, install dependencies using `pip install -r requirements.txt` and launch the app with `streamlit run app.py`. The deployment option is free Streamlit Community Cloud, using GitHub's `main` branch, entrypoint `app.py`, and a public model repository for the trained weights. Full local and hosted instructions are in [RUNNING.md](RUNNING.md), **Capstone** section.
+
+**Hosted URL:** Not deployed yet. Insert the real URL only after a successful browser test.
+
+**Instrumentation**
+
+All user submissions pass through `takemeter_inference.classify_opinion()`, which writes one JSONL event for success or failure. Each record includes `timestamp`, `input` (character length and SHA-256; no raw visitor text), `model`, `status`, `output`, `error`, and `duration_ms`. Local/private logs are stored in `logs/`, which Git ignores. A public Streamlit app's local logs may be lost on restart.
+
+**Measured log entries:** Pending a real four-label model checkpoint and execution of `python measure_extension.py --phase before`. Paste at least **ten actual, sanitized records**, including at least one rejected/failed input, below this line when measured. Do not invent records or commit any private visitor text.
+
+**What It Costs**
+
+This uses local or hosted CPU inference; it does not require a paid inference API. `measure_extension.py` measures three batches of ten warm predictions and reports mean **wall-clock seconds per request**, excluding the initial model download/load. Cost must be calculated from those real measurements.
+
+**Measured seconds per request:** Pending real model run.
+
+**100 opinions per day:** `100 × measured seconds per request` = pending measured total warm inference time per day. Free hosting has resource and traffic limits; zero billing does not imply unlimited capacity.
+
+**Run Log and Verdicts**
+
+Five criteria for the new capability were committed under **Capstone** in [criteria.md](criteria.md) before recording results. Each criterion must have results from three separate trials. The measurement command prints a five-row table with targets, Trial 1–3, and MET or MISSED.
+
+**Before improvement:** Pending real model export and `python measure_extension.py --phase before`.
+
+For any miss, name the failing stage (validation, model, latency, or log writer) and explain the mechanism; do not simply say the system was slow or wrong. Preserve the measured outcomes even if the target is missed.
+
+**The Improvement**
+
+After the first three measured trials, choose **one** change motivated by a failed criterion or a diagnosed weakness. Re-run the same ten valid and six invalid test inputs in three trials with `python measure_extension.py --phase after`. Add the second five-row run log and a side-by-side comparison of before/after measurements. The code and test harness are ready; **no improvement result is claimed yet**.
+
+**What's Still Broken**
+
+The GitHub repository contains the original model training notebook and result summaries but not the fine-tuned weights, so the website cannot make genuine predictions until a trained checkpoint is exported. Free hosting is not yet deployed or measured. The next practical step is to export the four-label model, verify inference locally, and record baseline measurements. Streamlit's ephemeral filesystem also cannot be relied upon for permanent public-site logs.
+
+For any criterion that remains MISSED after the improvement, document what to do next and why testing stopped; if all five are met, identify a target worth tightening. Any deployment failure must be recorded rather than marked as success.
+
+**How I Used AI**
+
+**Moment 1:** I asked about the model used in TakeMeter and whether it could be hosted for free. The comparison identified DistilBERT as the trained classifier and outlined Streamlit Community Cloud versus static or backend-only hosting alternatives. I chose Streamlit as the first no-cost deployment target while keeping hosting separate from the main extension.
+
+**Moment 2:** I specified that the required capability was entering a new opinion and receiving a classification, while hosting would count as extra credit. I also provided the Capstone requirements for criteria, logging, cost, three trials, and an improvement. The resulting plan retained the existing four labels, added an interactive interface, kept credentials and visitor logs out of Git, and reserved performance claims for measurements using the real model.
