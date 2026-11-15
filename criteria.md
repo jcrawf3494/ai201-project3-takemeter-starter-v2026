@@ -144,3 +144,22 @@ Some posts are pretty obvious, while others could easily fit into two labels. I 
      A number you missed stays where it is, gets diagnosed, and gets a fix
      attempted. That's where the points are.
      ───────────────────────────────────────────────────────────────────────── -->
+
+
+---
+
+## Capstone — acceptance criteria (declared before extension results)
+
+**System:** TakeMeter, extended with user-submitted opinion classification. Evaluate ten fixed, non-sensitive opinions and six invalid submissions per trial, with three trials against the same fine-tuned four-label checkpoint. Keep the same inputs and targets for before/after comparison.
+
+1. **Valid opinion classification.** All 10 user-submitted valid opinions return exactly one of `analysis`, `hot_take`, `personal_preference`, or `proposal` plus a finite confidence value from 0 to 1. **Target: 10/10 in each of three trials.** Missing or unsupported predictions make the input interface unusable.
+
+2. **Invalid input handling.** Reject all six deliberate invalid submissions (empty, whitespace-only, a non-string, and three inputs exceeding 3,000 characters) without running inference. **Target: 6/6 in each of three trials.** Invalid input should not crash a public app or waste compute.
+
+3. **Structured logs for successes and failures.** Every valid and invalid submission produces exactly one log record containing timestamp, input length/hash, output or error, status, and elapsed milliseconds. **Target: 16/16 complete records in each of three trials.** A missing failure is hard to diagnose; public visitors' raw text must not be committed.
+
+4. **Warm inference latency.** After a model warm-up, at least nine of ten valid submissions complete classification and logging within five seconds, excluding first-load/download time. **Target: at least 9/10 in each of three trials.** Visitors need usable response times on CPU-only, free-tier hardware.
+
+5. **Actual trained-model integration.** For all ten test opinions, predictions through the new input/validation/logging path match direct predictions from the same exported four-label fine-tuned DistilBERT checkpoint. **Target: 10/10 in each of three trials.** A mock or unfine-tuned model would not be a genuine extension to TakeMeter.
+
+**Measurement protocol:** Record three trials before making a targeted improvement, diagnose misses, change one thing, then repeat the same three trials. Report actual results, including misses; never relax a target because it was missed.
