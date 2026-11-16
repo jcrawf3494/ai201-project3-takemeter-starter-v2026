@@ -783,21 +783,33 @@ After exporting the trained checkpoint into `deployment_model/`, install depende
 
 All user submissions pass through `takemeter_inference.classify_opinion()`, which writes one JSONL event for success or failure. Each record includes `timestamp`, `input` (character length and SHA-256; no raw visitor text), `model`, `status`, `output`, `error`, and `duration_ms`. Local/private logs are stored in `logs/`, which Git ignores. A public Streamlit app's local logs may be lost on restart.
 
-**Measured log entries:** Pending a real four-label model checkpoint and execution of `python measure_extension.py --phase before`. Paste at least **ten actual, sanitized records**, including at least one rejected/failed input, below this line when measured. Do not invent records or commit any private visitor text.
+**Before-improvement logging result (reported from the local run):** Structured records passed **16/16** in each of the three trials. The log file is `logs/before_trial_events.jsonl`. Its contents are intentionally excluded from GitHub. **Still needed for the submission:** paste at least ten actual, sanitized JSONL entries from this file into this section, including one rejected input or failed run. The summary alone does not include individual records; do not invent them or publish visitors' private text.
 
 **What It Costs**
 
 This uses local or hosted CPU inference; it does not require a paid inference API. `measure_extension.py` measures three batches of ten warm predictions and reports mean **wall-clock seconds per request**, excluding the initial model download/load. Cost must be calculated from those real measurements.
 
-**Measured seconds per request:** Pending real model run.
+**Measured mean warm wall time:** **0.0228 seconds per request** (22.8 ms), reported by the local `--phase before` measurement after warm-up. This is measured wall-clock request time, not a cloud billing charge or pure CPU time.
 
-**100 opinions per day:** `100 × measured seconds per request` = pending measured total warm inference time per day. Free hosting has resource and traffic limits; zero billing does not imply unlimited capacity.
+**100 opinions per day:** `100 × 0.0228 seconds` = **2.28 seconds of cumulative warm inference wall time per day** (assuming the same workload and hardware; excludes first model download/startup and concurrent traffic). This is a compute-time measurement, **not a verified dollar cost**. Free hosting has resource and traffic limits; zero billing does not imply unlimited capacity.
 
 **Run Log and Verdicts**
 
 Five criteria for the new capability were committed under **Capstone** in [criteria.md](criteria.md) before recording results. Each criterion must have results from three separate trials. The measurement command prints a five-row table with targets, Trial 1–3, and MET or MISSED.
 
-**Before improvement:** Pending real model export and `python measure_extension.py --phase before`.
+**Before improvement — measured local results (three trials):**
+
+| Criterion | Target | Trial 1 | Trial 2 | Trial 3 | Verdict |
+|---|---|---|---|---|---|
+| Valid predictions | 10/10 | 10/10 | 10/10 | 10/10 | MET |
+| Invalid inputs rejected | 6/6 | 6/6 | 6/6 | 6/6 | MET |
+| Structured records | 16/16 | 16/16 | 16/16 | 16/16 | MET |
+| Predictions under 5 seconds | ≥9/10 | 10/10 | 10/10 | 10/10 | MET |
+| Matches direct model | 10/10 | 10/10 | 10/10 | 10/10 | MET |
+
+**Source:** Local output from `python measure_extension.py --model ./deployment_model --phase before`, provided after the run. It names `capstone_results_before.json` as the summary and `logs/before_trial_events.jsonl` as the log; those private local files are not published here. The reported measurement is 0.0228 seconds per warm request.
+
+**Verdict and diagnosis:** All five before-improvement targets were met in all three reported trials. No missed target needs a failure diagnosis in this run. The tests establish that the new opinion-submission path produced valid output, rejected bad input, logged events, responded within the warm-latency target, and agreed with direct model calls on the sampled inputs. They do **not** establish classification accuracy against ground-truth labels, cold-start performance, or hosted reliability. The five-second latency target may be loose relative to the measured 22.8 ms warm average; a future test could tighten it to one second and include cold starts.
 
 For any miss, name the failing stage (validation, model, latency, or log writer) and explain the mechanism; do not simply say the system was slow or wrong. Preserve the measured outcomes even if the target is missed.
 
@@ -807,7 +819,7 @@ After the first three measured trials, choose **one** change motivated by a fail
 
 **What's Still Broken**
 
-The GitHub repository contains the original model training notebook and result summaries but not the fine-tuned weights, so the website cannot make genuine predictions until a trained checkpoint is exported. Free hosting is not yet deployed or measured. The next practical step is to export the four-label model, verify inference locally, and record baseline measurements. Streamlit's ephemeral filesystem also cannot be relied upon for permanent public-site logs.
+The reported local before-improvement trial completed, but the trained model weights remain excluded from public GitHub, as intended. **Hosting is not yet deployed or measured.** The submission still needs at least ten actual, sanitized log lines in **Instrumentation**, an after-improvement three-trial run following one targeted change, and verification of the free hosted URL. Streamlit's ephemeral filesystem also cannot be relied upon for permanent public-site logs.
 
 For any criterion that remains MISSED after the improvement, document what to do next and why testing stopped; if all five are met, identify a target worth tightening. Any deployment failure must be recorded rather than marked as success.
 
