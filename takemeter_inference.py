@@ -44,7 +44,7 @@ def load_trained_model(checkpoint: str):
         )
 
     import torch
-    from transformers import AutoModelForSequenceClassification, AutoTokenizer
+    from transformers import AutoModelForSequenceClassification, DistilBertTokenizerFast
 
     # Capstone measured improvement: optional single-thread CPU inference for
     # short posts. Leave unset for original behavior; set to 1 only for the
@@ -59,7 +59,21 @@ def load_trained_model(checkpoint: str):
             raise ValueError("TAKEMETER_TORCH_THREADS must be between 1 and 64.")
         torch.set_num_threads(thread_count)
 
-    tokenizer = AutoTokenizer.from_pretrained(checkpoint, trust_remote_code=False)
+    # Use the saved fast tokenizer.json directly. Some hosted checkpoints
+    # carry tokenizer_class="DistilBertTokenizer" (the slow class) and
+    # accidentally resolve vocab_file=None during AutoTokenizer loading.
+    # The notebook exported tokenizer.json, so explicitly load its fast
+    # DistilBERT implementation rather than reconstructing a slow tokenizer.
+    try:
+        tokenizer = DistilBertTokenizerFast.from_pretrained(
+            checkpoint, trust_remote_code=False
+        )
+    except (TypeError, OSError, ValueError) as exc:
+        raise RuntimeError(
+            "Tokenizer load failed. Ensure tokenizer.json, vocab.txt, "
+            "tokenizer_config.json and special_tokens_map.json are uploaded "
+            "at the model repository root."
+        ) from exc
     model = AutoModelForSequenceClassification.from_pretrained(
         checkpoint, trust_remote_code=False
     )
