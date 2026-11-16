@@ -435,9 +435,11 @@ than a paid inference service), after confirming that the checkpoint includes
 no confidential training data or secrets.
 
 1. Create a Hugging Face account and a public model repository of your choosing.
-2. Upload the contents of `deployment_model/` (not the enclosing directory)
-   to that model repository. Include `config.json`, weights, and tokenizer.
-   Do not upload labeled CSVs, logs, credentials, or visitor opinions.
+2. Upload the exported `config.json`, weights, and tokenizer files
+   to that model repository, either directly at its root or inside a folder
+   such as `deployment_model/`. Do not upload `training_args.bin`, labeled
+   CSVs, logs, credentials, or visitor opinions. The code supports both
+   layouts; set the optional subfolder secret if using the second layout.
 3. Sign into https://share.streamlit.io with GitHub and create a Streamlit
    application from repository
    `jcrawf3494/ai201-project3-takemeter-starter-v2026`,
@@ -445,10 +447,18 @@ no confidential training data or secrets.
 4. In the **app's Streamlit secret settings** (not GitHub), configure:
 
    ```toml
-   TAKEMETER_MODEL_ID = "YOUR_HF_USERNAME/YOUR_MODEL_REPOSITORY"
+   TAKEMETER_MODEL_ID = "jcrawf1077/takemeter-distilbert"
+   TAKEMETER_MODEL_SUBFOLDER = "deployment_model"
    ```
 
-   This is a public model identifier, not a credential. If any real access
+   This example matches the existing hosted model layout where files are
+   inside `deployment_model/`. If your model files are instead at the
+   repository root, omit `TAKEMETER_MODEL_SUBFOLDER`. Do not append
+   `/deployment_model` to `TAKEMETER_MODEL_ID`; the folder must be a
+   separate configuration value. For local `./deployment_model` use,
+   leave the subfolder unset.
+
+   The model repository ID is public and is not a credential. If any real access
    tokens are ever needed, store them in the hosted secret manager; never
    publish or commit them.
 5. Deploy, open the actual public URL, enter a new opinion, and verify the
