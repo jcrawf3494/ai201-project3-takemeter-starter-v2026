@@ -367,6 +367,12 @@ This writes the fine-tuned model and tokenizer to `deployment_model/`. That
 directory is ignored by Git, because the weights are large and must not be
 stored in ordinary Git commits. Check that it contains `config.json`, model
 weights (`model.safetensors` or `pytorch_model.bin`), and tokenizer files.
+For the exported checkpoint used in this Capstone, `model.safetensors` was
+**267,838,720 bytes (about 255.4 MiB)** and `tokenizer.json` was
+**711,661 bytes (about 695 KiB)**. These are measured local file sizes, not
+guaranteed download sizes for future model exports. The hosted app retrieves
+them from the public Hugging Face repository when the checkpoint is loaded.
+Do not upload `training_args.bin`, private datasets, or visitor logs.
 
 Do not substitute the base `distilbert-base-uncased` checkpoint: that would
 not be your trained classifier. Make sure the checkpoint has the labels
@@ -374,7 +380,19 @@ not be your trained classifier. Make sure the checkpoint has the labels
 
 ### 2. Start the new capability locally
 
-From the repository root:
+From the repository root, activate the matching Python 3.11–3.13 virtual
+environment. On Windows PowerShell:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+python -m streamlit run app.py
+```
+
+Create the virtual environment only if it does not already exist. The same
+app can also be started on other operating systems after activating their
+environment. For the full local unit-test and notebook check:
 
 ```bash
 python -m pip install -r requirements.txt
@@ -425,6 +443,12 @@ Add the second three-trial table, measured cost, and side-by-side before/after
 comparison to the Capstone README. Do not claim results before they exist.
 
 ### 4. Free hosted extra credit: Streamlit Community Cloud
+
+**Hosted app:** https://ai201-project3-takemeter-starter-v2026-ghvwnsd9epiaxg64b6s8ff.streamlit.app/
+(confirmed working by the user after the final Hugging Face subfolder fix).
+**Model repository:** https://huggingface.co/jcrawf1077/takemeter-distilbert
+with checkpoint files under `deployment_model/`. Streamlit was deployed with
+Python **3.12**, branch `main`, and entrypoint `app.py`.
 
 The free tier may have CPU/RAM and uptime limits; verify real deployment
 before marking hosted extra credit complete.
