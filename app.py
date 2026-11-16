@@ -21,10 +21,17 @@ st.caption("Categories: analysis · hot_take · personal_preference · proposal"
 
 try:
     configured_model = st.secrets.get("TAKEMETER_MODEL_ID")
+    configured_subfolder = st.secrets.get("TAKEMETER_MODEL_SUBFOLDER")
 except Exception:
     configured_model = None
+    configured_subfolder = None
 
 checkpoint = configured_model or os.getenv("TAKEMETER_MODEL_ID", "./deployment_model")
+model_subfolder = (
+    configured_subfolder
+    if configured_subfolder is not None
+    else os.getenv("TAKEMETER_MODEL_SUBFOLDER", "")
+)
 model_source = (
     "Streamlit Secrets" if configured_model
     else "environment variable" if os.getenv("TAKEMETER_MODEL_ID")
@@ -58,8 +65,9 @@ def error_diagnostic(exc: Exception) -> tuple[str, str]:
                 "the repository is public.")
     if "config.json" in message or "model.safetensors" in message or "tokenizer" in message:
         return ("MODEL_FILES_OR_CONFIG",
-                "Check that all six exported model and tokenizer files were "
-                "uploaded at the root of the Hugging Face model repository.")
+                "Check that all six exported model and tokenizer files exist "
+                "in the configured Hugging Face repository subfolder "
+                "(or at the root if no subfolder is set).")
     return ("MODEL_RUNTIME_ERROR",
             "Check the model repository, uploaded files, and Streamlit Cloud logs.")
 
@@ -74,8 +82,8 @@ def safe_error_location(exc: Exception) -> str:
 
 
 @st.cache_resource(show_spinner="Loading trained TakeMeter model …")
-def cached_predictor(checkpoint_name: str):
-    return load_trained_model(checkpoint_name)
+def cached_predictor(checkpoint_name: str, subfolder_name: str):
+    return load_trained_model(checkpoint_name, subfolder=subfolder_name)
 
 
 with st.form("opinion_form"):
@@ -92,7 +100,7 @@ if submitted:
 
     def model_prediction(text: str):
         step["stage"] = "loading_model"
-        predictor = cached_predictor(checkpoint)
+        predictor = cached_predictor(checkpoint, model_subfolder)
         step["stage"] = "running_inference"
         outcome = predictor(text)
         step["stage"] = "validating_result_or_writing_log"
