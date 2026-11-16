@@ -1,6 +1,7 @@
 """TakeMeter website: classify a visitor's own opinion with trained DistilBERT."""
 import os
 import logging
+import traceback
 
 import streamlit as st
 
@@ -34,6 +35,10 @@ model_source = (
 def error_diagnostic(exc: Exception) -> tuple[str, str]:
     """Give a useful diagnosis without exposing exception text or credentials."""
     message = str(exc).lower()
+    if not isinstance(checkpoint, str) or not checkpoint.strip():
+        return ("MODEL_ID_INVALID",
+                "TAKEMETER_MODEL_ID must be a single quoted string such as "
+                "username/takemeter-distilbert in Streamlit Secrets.")
     if model_source == "local fallback" and not os.path.isdir("./deployment_model"):
         return ("MODEL_ID_MISSING",
                 "The hosted app has no trained model configured. Set "
@@ -59,6 +64,14 @@ def error_diagnostic(exc: Exception) -> tuple[str, str]:
             "Check the model repository, uploaded files, and Streamlit Cloud logs.")
 
 
+def safe_error_location(exc: Exception) -> str:
+    """Only show code locations, never exception messages or visitor text."""
+    frames = traceback.extract_tb(exc.__traceback__)
+    return " → ".join(
+        f"{os.path.basename(frame.filename)}:{frame.lineno} ({frame.name})"
+        for frame in frames[-5:]
+    ) or "unknown"
+
 
 @st.cache_resource(show_spinner="Loading trained TakeMeter model …")
 def cached_predictor(checkpoint_name: str):
@@ -75,11 +88,21 @@ with st.form("opinion_form"):
     submitted = st.form_submit_button("Classify opinion", type="primary")
 
 if submitted:
+    step = {"stage": "validating_input"}
+
+    def model_prediction(text: str):
+        step["stage"] = "loading_model"
+        predictor = cached_predictor(checkpoint)
+        step["stage"] = "running_inference"
+        outcome = predictor(text)
+        step["stage"] = "validating_result_or_writing_log"
+        return outcome
+
     try:
         with st.spinner("Classifying …"):
             result = classify_opinion(
                 opinion,
-                lambda text: cached_predictor(checkpoint)(text),
+                model_prediction,
                 model_name=checkpoint,
             )
         st.subheader(f"Prediction: {result['label']}")
@@ -91,14 +114,16 @@ if submitted:
         code, advice = error_diagnostic(exc)
         LOGGER.error(
             "TakeMeter classification failed: code=%s exception_type=%s "
-            "model_source=%s",
+            "model_source=%s stage=%s code_location=%s",
             code,
             type(exc).__name__,
             model_source,
+            step["stage"],
+            safe_error_location(exc),
         )
         st.error(
             f"Classification failed [{code}]. {advice} "
-            f"(Exception type: {type(exc).__name__})"
+            f"(Stage: {step['stage']}; Exception: {type(exc).__name__})"
         )
 
 st.caption("This classifier categorizes opinions; it does not fact-check claims.")
