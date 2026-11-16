@@ -777,7 +777,24 @@ TakeMeter already classifies posts from the Lemmy unpopular-opinion dataset with
 
 After exporting the trained checkpoint into `deployment_model/`, install dependencies using `pip install -r requirements.txt` and launch the app with `streamlit run app.py`. The deployment option is free Streamlit Community Cloud, using GitHub's `main` branch, entrypoint `app.py`, and a public model repository for the trained weights. Full local and hosted instructions are in [RUNNING.md](RUNNING.md), **Capstone** section.
 
-**Hosted URL:** Not deployed yet. Insert the real URL only after a successful browser test.
+**Hosted URL:** [TakeMeter on Streamlit Community Cloud](https://ai201-project3-takemeter-starter-v2026-ghvwnsd9epiaxg64b6s8ff.streamlit.app/) (reported working after the deployment fixes; this is the URL in the latest deployment log). The site accepts a new opinion and returns a predicted category and confidence using the fine-tuned checkpoint stored in the public Hugging Face model repository [jcrawf1077/takemeter-distilbert](https://huggingface.co/jcrawf1077/takemeter-distilbert).
+
+**Hosted configuration:** The Streamlit app deploys `app.py` from GitHub `main` with Python 3.12. The fine-tuned weights are not committed to GitHub; Streamlit uses the following public model location, configured through **Streamlit Secrets** rather than checked-in credentials:
+
+```toml
+TAKEMETER_MODEL_ID = "jcrawf1077/takemeter-distilbert"
+TAKEMETER_MODEL_SUBFOLDER = "deployment_model"
+```
+
+**Deployment troubleshooting and resolution:**
+
+1. **Python version:** The first Streamlit deployment selected Python 3.14, whereas this project supports Python 3.11–3.13. I redeployed with Python 3.12; the dependency installation and app startup then completed. This fixed the environment mismatch, but not the classification failure.
+2. **Hidden application exception:** The page initially displayed only "The trained model is unavailable or classification failed." I added privacy-conscious error categories and logging of the failing stage, exception type, and Python code location without publishing raw visitor input or exception messages. The new diagnostics identified a `TypeError` during `loading_model`, specifically while initializing the DistilBERT tokenizer.
+3. **Tokenizer loading:** I changed the loader to explicitly use `DistilBertTokenizerFast` and the exported `tokenizer.json`, rather than relying on the slow tokenizer path. This alone did not resolve the hosted loading error, showing that the tokenizer's location was also a problem.
+4. **Hugging Face file location:** The model and tokenizer files were uploaded inside the repository's `deployment_model/` subfolder, but the app originally searched the repository root. I added support for a separate `TAKEMETER_MODEL_SUBFOLDER` setting and passed the `subfolder` argument to **both** the tokenizer and model loaders. The repository ID remains `jcrawf1077/takemeter-distilbert`; `deployment_model` is a folder, not part of that ID.
+5. **Result:** After the final code and Streamlit Secrets update, I tested the app and confirmed it classifies a submitted opinion. These were hosting and compatibility fixes, **not** a second model feature or a replacement for the original before/after performance trials. No hosted latency or uptime measurements are claimed here.
+
+To reproduce or check the live app, open the URL above, submit a short opinion, check that a label and confidence appear, then try empty input and confirm that it is rejected. Hosted logs are on ephemeral Streamlit storage, so private visitor logs and credentials must not be committed to GitHub.
 
 **Instrumentation**
 
@@ -858,10 +875,12 @@ For any miss, name the failing stage (validation, model, latency, or log writer)
 
 **What's Still Broken**
 
-The trained model weights remain excluded from public GitHub, as intended, and **free Streamlit hosting is not yet deployed or measured**. The required sanitized synthetic log excerpt and three before/after trials are documented, but live hosting still needs its own browser test, URL, and operational verification. Streamlit's ephemeral local filesystem also cannot guarantee durable hosted logs. None of the five acceptance criteria was missed in the measured trials; the remaining performance weakness is that a 5-second warm-latency target does not distinguish a 22.8-millisecond request from a 73.8-millisecond request. A tighter, hardware-specific warm-latency target and explicit cold-start measurement would make the next round more informative.
+The free Streamlit app is deployed and has been reported working after correcting the Python version, tokenizer loading, and Hugging Face subfolder configuration. The trained model weights remain intentionally outside GitHub. The required sanitized synthetic log excerpt and three local before/after trials are documented, but **hosted uptime, cold-start time, memory use, and persistent operational logging have not been measured or implemented**. Streamlit's ephemeral filesystem cannot guarantee durable visitor logs. None of the five local acceptance criteria was missed; the remaining performance weakness is that a five-second warm-latency target does not distinguish a 22.8-millisecond request from a 73.8-millisecond request. A tighter, hardware-specific warm-latency target and explicit hosted cold-start measurement would make the next round more informative.
 
 **How I Used AI**
 
 **Moment 1:** I asked about the model used in TakeMeter and whether it could be hosted for free. The comparison identified DistilBERT as the trained classifier and outlined Streamlit Community Cloud versus static or backend-only hosting alternatives. I chose Streamlit as the first no-cost deployment target while keeping hosting separate from the main extension.
 
 **Moment 2:** I specified that the required capability was entering a new opinion and receiving a classification, while hosting would count as extra credit. I also provided the Capstone requirements for criteria, logging, cost, three trials, and an improvement. The resulting plan retained the existing four labels, added an interactive interface, kept credentials and visitor logs out of Git, and reserved performance claims for measurements using the real model.
+
+**Moment 3:** During deployment troubleshooting, I shared the Streamlit error messages and logs and used AI-assisted suggestions to narrow down the failure: first correcting the Python version, then identifying the tokenizer-loading exception, and finally connecting the model repository's nested `deployment_model` folder using an explicit subfolder setting. I confirmed the final result by testing the live website. I kept the troubleshooting account and local performance measurements separate so a successful deployment is not misrepresented as new benchmark evidence.
