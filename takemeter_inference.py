@@ -34,8 +34,17 @@ def validate_opinion(text: object) -> str:
     return opinion
 
 
-def load_trained_model(checkpoint: str):
-    """Load the saved, four-label TakeMeter checkpoint for CPU inference."""
+def load_trained_model(checkpoint: str, subfolder: str = ""):
+    """Load the saved four-label checkpoint, optionally from a Hub subfolder."""
+    if not isinstance(subfolder, str):
+        raise ValueError("Model subfolder must be a string.")
+    subfolder = subfolder.strip()
+    if subfolder and (
+        subfolder.startswith(("/", "\\"))
+        or "\\" in subfolder
+        or any(part in ("", ".", "..") for part in subfolder.split("/"))
+    ):
+        raise ValueError("Model subfolder must be a relative repository folder path.")
     if not checkpoint or not checkpoint.strip():
         raise RuntimeError("No trained model configured. See RUNNING.md.")
     if checkpoint.startswith("./") and not Path(checkpoint).is_dir():
@@ -59,6 +68,13 @@ def load_trained_model(checkpoint: str):
             raise ValueError("TAKEMETER_TORCH_THREADS must be between 1 and 64.")
         torch.set_num_threads(thread_count)
 
+    # The model files may be stored in a Hugging Face repository subfolder.
+    # Transformers handles this through its explicit subfolder argument,
+    # not by appending the folder name to the repository ID.
+    loader_options = {"trust_remote_code": False}
+    if subfolder:
+        loader_options["subfolder"] = subfolder
+
     # Use the saved fast tokenizer.json directly. Some hosted checkpoints
     # carry tokenizer_class="DistilBertTokenizer" (the slow class) and
     # accidentally resolve vocab_file=None during AutoTokenizer loading.
@@ -66,16 +82,17 @@ def load_trained_model(checkpoint: str):
     # DistilBERT implementation rather than reconstructing a slow tokenizer.
     try:
         tokenizer = DistilBertTokenizerFast.from_pretrained(
-            checkpoint, trust_remote_code=False
+            checkpoint, **loader_options
         )
     except (TypeError, OSError, ValueError) as exc:
         raise RuntimeError(
             "Tokenizer load failed. Ensure tokenizer.json, vocab.txt, "
             "tokenizer_config.json and special_tokens_map.json are uploaded "
-            "at the model repository root."
+            "inside the configured model subfolder (or repository root if "
+            "no subfolder was configured)."
         ) from exc
     model = AutoModelForSequenceClassification.from_pretrained(
-        checkpoint, trust_remote_code=False
+        checkpoint, **loader_options
     )
     model.to("cpu")
     model.eval()
