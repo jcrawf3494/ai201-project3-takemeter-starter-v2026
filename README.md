@@ -815,7 +815,7 @@ For any miss, name the failing stage (validation, model, latency, or log writer)
 
 **The Improvement**
 
-After the first three measured trials, choose **one** change motivated by a failed criterion or a diagnosed weakness. Re-run the same ten valid and six invalid test inputs in three trials with `python measure_extension.py --phase after`. Add the second five-row run log and a side-by-side comparison of before/after measurements. The code and test harness are ready; **no improvement result is claimed yet**.
+**Selected improvement to test:** Limit CPU inference to one PyTorch thread using the new optional `TAKEMETER_TORCH_THREADS=1` setting. The first three trials passed every criterion, but the five-second warm-response target is loose, so this is a targeted performance experiment on short text inputs. CPU thread overhead might decrease or increase latency depending on the computer; only the after-run measurements can establish the result. Keep the model, test inputs, and acceptance targets unchanged. In PowerShell, set `$env:TAKEMETER_TORCH_THREADS="1"` and run `python measure_extension.py --model ./deployment_model --phase after`. The after-run results are **not available yet**. Then run `python publish_capstone_evidence.py --include-after` locally to insert the real log evidence, three-trial table, and comparison.
 
 **What's Still Broken**
 
