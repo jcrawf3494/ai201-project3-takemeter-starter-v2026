@@ -42,9 +42,9 @@ def known_inputs():
         raw = value if isinstance(value, str) else ""
         fingerprint = (len(raw), hashlib.sha256(raw.encode("utf-8")).hexdigest())
         if not isinstance(value, str):
-            preview = "[synthetic non-string input]"
+            preview = "[synthetic empty or non-string input]"
         elif not raw.strip():
-            preview = "[synthetic empty/whitespace input]"
+            preview = "[synthetic empty or non-string input]"
         elif len(raw) > 150:
             preview = f"[synthetic length-limit input: {len(raw)} characters]"
         else:
