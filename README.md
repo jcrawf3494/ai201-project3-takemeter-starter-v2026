@@ -796,6 +796,19 @@ TAKEMETER_MODEL_SUBFOLDER = "deployment_model"
 
 To reproduce or check the live app, open the URL above, submit a short opinion, check that a label and confidence appear, then try empty input and confirm that it is rejected. Hosted logs are on ephemeral Streamlit storage, so private visitor logs and credentials must not be committed to GitHub.
 
+**Stretch feature — both run paths (declared before deployment):** The original Capstone **The Shape** and **Running It** sections specified local inference and hosted deployment before hosting was built. Both are available, but setup and operational limits differ:
+
+| Aspect | Local run | Hosted Streamlit run |
+|---|---|---|
+| Launch | `streamlit run app.py` from the activated `.venv` | Streamlit Community Cloud runs the same `app.py` from GitHub `main` |
+| Python / packages | Python 3.11–3.13, `pip install -r requirements.txt` | Python 3.12 selected in deployment; dependencies from the same repository |
+| Fine-tuned model | `./deployment_model` on the local computer | Hugging Face `jcrawf1077/takemeter-distilbert`, with `deployment_model` selected using Streamlit Secrets |
+| Observed behavior | Local synthetic opinions were classified during the recorded trials | Public opinion form reported working after the tokenizer/subfolder fix |
+| Difference / limitation | Warm mean latency was 22.8 ms before and 73.8 ms after the threading experiment on the local computer | Hosted download and cold-start latency were not measured; the local measurements cannot be treated as hosted benchmarks |
+| Logs | Private `logs/` files persist until deleted | Hosted filesystem is ephemeral, so logs can be lost on restart |
+
+This documents the **both run paths** stretch item. The other stretch items (a second measured improvement, stage-by-stage latency breakdown, and tenfold load observation) are **not claimed**, because the required measurements have not been run.
+
 **Instrumentation**
 
 All user submissions pass through `takemeter_inference.classify_opinion()`, which writes one JSONL event for success or failure. Each record includes `timestamp`, `input` (character length and SHA-256; no raw visitor text), `model`, `status`, `output`, `error`, and `duration_ms`. Local/private logs are stored in `logs/`, which Git ignores. A public Streamlit app's local logs may be lost on restart.
@@ -850,6 +863,54 @@ Five criteria for the new capability were committed under **Capstone** in [crite
 
 For any miss, name the failing stage (validation, model, latency, or log writer) and explain the mechanism; do not simply say the system was slow or wrong. Preserve the measured outcomes even if the target is missed.
 
+**Measured output by acceptance criterion (reproducible evidence)**
+
+The before/after verdict tables above are the measured aggregate output of `measure_extension.main()` in `measure_extension.py`. Samples below are copied from the already-committed, sanitized **before** run at `logs/before_trial_events.jsonl`, written by `takemeter_inference.classify_opinion()` and checked by `measure_extension.trial()`. The complete private log and model weights remain outside GitHub. The [five Capstone criteria](https://github.com/jcrawf3494/ai201-project3-takemeter-starter-v2026/commit/fd839791da844ea498137730f0b706ee90627440) were committed **before** [the first measured results](https://github.com/jcrawf3494/ai201-project3-takemeter-starter-v2026/commit/4ce58710e40b6605f1e01ee520a62c7480b3ee6a). The longer sanitized excerpt and after results were committed in [8685d7b9](https://github.com/jcrawf3494/ai201-project3-takemeter-starter-v2026/commit/8685d7b9).
+
+1. **Valid predictions (10/10 per trial):** `measure_extension.trial()` counts each valid response from `classify_opinion()` when its label belongs to the four allowed labels and its confidence is finite and within [0, 1]. Actual before-run console output:
+
+   ~~~text
+   | Valid predictions | 10/10 | 10/10 | 10/10 | 10/10 | MET |
+   ~~~
+
+   Actual sanitized prediction event with its label and confidence:
+
+   ~~~json
+{"timestamp": "2026-11-16T00:58:10.251102+00:00", "input": {"synthetic_example": "Cooking classes should be required in every school.", "length": 51, "sha256": "512166af92a3808a340b77c7eba349b2e0d6ed458fc27a0c00731adbacaec9a7"}, "status": "ok", "output": {"label": "proposal", "confidence": 0.31017425656318665}, "error": null, "duration_ms": 21.82}
+   ~~~
+
+2. **Invalid inputs rejected (6/6 per trial):** `takemeter_inference.validate_opinion()` raises `InvalidOpinion` before the model runs; `classify_opinion()` logs rejected requests. Actual before-run output and one rejected-input event:
+
+   ~~~text
+   | Invalid inputs rejected | 6/6 | 6/6 | 6/6 | 6/6 | MET |
+   ~~~
+
+   ~~~json
+{"timestamp": "2026-11-16T00:58:10.853550+00:00", "input": {"synthetic_example": "[synthetic empty or non-string input]", "length": 0, "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"}, "status": "invalid_input", "output": null, "error": "Input rejected by validation", "duration_ms": 0.07}
+   ~~~
+
+3. **Structured records (16/16 per trial):** `classify_opinion()` writes one JSONL record for successful and rejected requests in its `finally` block; `measure_extension.trial()` checks the required fields. The two records above are actual examples with `timestamp`, `input` length/hash, `status`, `output`, `error`, and `duration_ms`. Actual before-run console output:
+
+   ~~~text
+   | Structured records | 16/16 | 16/16 | 16/16 | 16/16 | MET |
+   ~~~
+
+4. **Predictions under five seconds (10/10 per trial, target at least 9/10):** `measure_extension.trial()` reads each valid request's `duration_ms` and checks whether it is under 5,000 ms. The Criterion 1 event above took **21.82 ms**; that single event illustrates the timing, while the aggregate output below records all three trial counts:
+
+   ~~~text
+   | Predictions under 5 seconds | >=9/10 | 10/10 | 10/10 | 10/10 | MET |
+   ~~~
+
+5. **Matches direct model (10/10 per trial):** `measure_extension.trial()` calls the same trained model directly through `predictor()` and compares its label to the output from `classify_opinion()`. The actual console output was:
+
+   ~~~text
+   | Matches direct model | 10/10 | 10/10 | 10/10 | 10/10 | MET |
+   ~~~
+
+   The comparison is performed for each opinion but individual direct-versus-form pairs are **not saved** in JSONL; the test-harness aggregate is the available evidence for this criterion.
+
+The measured trials use the exported four-label fine-tuned DistilBERT, **not** a mock. The unit tests in `tests/` deliberately use mocks so they can run without downloading model weights. Passing these criteria does not establish ground-truth accuracy, uptime, or cold-start performance.
+
 **The Improvement**
 
 **Why I made this change:** The first three trials passed all five acceptance criteria, but the five-second response-time target was much higher than the measured 0.0228-second warm average. I wanted to see whether reducing CPU threading overhead would make short, single-opinion predictions faster without changing the fine-tuned model or its classifications. I added an optional `TAKEMETER_TORCH_THREADS` setting and tested it at `1` using the same model, the same ten valid and six invalid inputs, and three trials. The hypothesis was that a small batch of text might run more efficiently with fewer threads.
@@ -875,7 +936,7 @@ For any miss, name the failing stage (validation, model, latency, or log writer)
 
 **What's Still Broken**
 
-The free Streamlit app is deployed and has been reported working after correcting the Python version, tokenizer loading, and Hugging Face subfolder configuration. The trained model weights remain intentionally outside GitHub. The required sanitized synthetic log excerpt and three local before/after trials are documented, but **hosted uptime, cold-start time, memory use, and persistent operational logging have not been measured or implemented**. Streamlit's ephemeral filesystem cannot guarantee durable visitor logs. None of the five local acceptance criteria was missed; the remaining performance weakness is that a five-second warm-latency target does not distinguish a 22.8-millisecond request from a 73.8-millisecond request. A tighter, hardware-specific warm-latency target and explicit hosted cold-start measurement would make the next round more informative.
+The free Streamlit app is deployed and has been reported working after correcting the Python version, tokenizer loading, and Hugging Face subfolder configuration. The trained model weights remain intentionally outside GitHub. The required sanitized synthetic log excerpt and three local before/after trials are documented, but **hosted uptime, cold-start time, memory use, and persistent operational logging have not been measured or implemented**. Streamlit's ephemeral filesystem cannot guarantee durable visitor logs. None of the five local acceptance criteria was missed; the remaining performance weakness is that a five-second warm-latency target does not distinguish a 22.8-millisecond request from a 73.8-millisecond request. A tighter, hardware-specific warm-latency target and explicit hosted cold-start measurement would make the next round more informative. **Given more time, I would first measure hosted cold-start latency**, including the initial Hugging Face model download and initialization. The current 22.8 ms and 73.8 ms figures exclude initial loading, so they may understate the wait experienced by a first visitor. I would prioritize that measurement over another thread-count experiment or a load test, then use the results to select a targeted improvement.
 
 **How I Used AI**
 
