@@ -46,6 +46,19 @@ def load_trained_model(checkpoint: str):
     import torch
     from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
+    # Capstone measured improvement: optional single-thread CPU inference for
+    # short posts. Leave unset for original behavior; set to 1 only for the
+    # after trial. This can help or hurt depending on the actual CPU.
+    thread_setting = os.environ.get("TAKEMETER_TORCH_THREADS")
+    if thread_setting is not None:
+        try:
+            thread_count = int(thread_setting)
+        except ValueError as exc:
+            raise ValueError("TAKEMETER_TORCH_THREADS must be a positive integer.") from exc
+        if not 1 <= thread_count <= 64:
+            raise ValueError("TAKEMETER_TORCH_THREADS must be between 1 and 64.")
+        torch.set_num_threads(thread_count)
+
     tokenizer = AutoTokenizer.from_pretrained(checkpoint, trust_remote_code=False)
     model = AutoModelForSequenceClassification.from_pretrained(
         checkpoint, trust_remote_code=False
