@@ -485,3 +485,72 @@ a failure, measured cost and 100/day arithmetic, diagnoses, one measured
 improvement, and the Capstone README sections. Preserve the repo history
 and use at least eight meaningful new commits. The implementation alone
 does not establish that the runtime criteria passed.
+
+
+### Capstone: complete the before/after evidence on Windows PowerShell
+
+These commands run locally because the model weights and private JSONL logs are
+deliberately excluded from GitHub. Use the project root in VS Code.
+
+First, download the latest Capstone changes and verify the initial trial files:
+
+~~~powershell
+git pull origin main
+.\.venv\Scripts\Activate.ps1
+python -m unittest discover -s tests -v
+Test-Path .\capstone_results_before.json
+Test-Path .\logs\before_trial_events.jsonl
+~~~
+
+Both Test-Path commands must print True before publishing the original
+measurement evidence. Do not invent or replace the initial measurements.
+If either is missing, recover the original local files, or carefully repeat
+the unchanged before trial with the CPU-thread setting unset; if a new before
+measurement differs, update the documented before values accordingly.
+
+**The one measured improvement experiment** limits the CPU inference worker
+to one PyTorch thread. The original five criteria already passed, so the
+hypothesis is that reducing CPU thread overhead may lower mean warm latency
+for short posts. This setting could also make it slower; both outcomes are
+valid, and the actual measured result should decide.
+
+~~~powershell
+$env:TAKEMETER_TORCH_THREADS="1"
+python measure_extension.py --model ./deployment_model --phase after
+python publish_capstone_evidence.py --include-after
+Remove-Item Env:\TAKEMETER_TORCH_THREADS
+~~~
+
+The measurement command writes actual three-trial after results to the
+Git-ignored capstone_results_after.json and local logs/after_trial_events.jsonl.
+The evidence publisher reads the original before JSON and JSONL logs, verifies
+known synthetic test inputs using their SHA-256 hashes, and inserts eleven
+privacy-reviewed real log entries (ten successes plus a rejected input) into
+README.md under **Instrumentation**. It also inserts the three-trial after table
+and observed mean latency comparison under **The Improvement**. It will refuse
+to publish if the measurement files are missing or it cannot find the real
+test events.
+
+Before committing, review README.md and the results. For any MISSED after
+criterion, replace the diagnostic note with the actual failing stage and
+mechanism as required by the assignment. Then commit only the public README,
+not the private input logs, weights, or secrets:
+
+~~~powershell
+git diff -- README.md
+git status --short
+git add README.md
+git commit -m "Capstone: document after trials and sanitized log evidence"
+git push origin main
+~~~
+
+If nothing has been committed yet and only the original log excerpt should
+be inserted, run the publisher without the flag:
+
+~~~powershell
+python publish_capstone_evidence.py
+~~~
+
+This is an instrumentation and optimization experiment, **not evidence of
+hosting**. Hosted extra credit still requires an independently working public
+URL, a free Streamlit deployment, and tested operational behavior.
