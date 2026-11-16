@@ -785,6 +785,26 @@ All user submissions pass through `takemeter_inference.classify_opinion()`, whic
 
 **Before-improvement logging result (reported from the local run):** Structured records passed **16/16** in each of the three trials. The log file is `logs/before_trial_events.jsonl`. Its contents are intentionally excluded from GitHub. **Still needed for the submission:** paste at least ten actual, sanitized JSONL entries from this file into this section, including one rejected input or failed run. The summary alone does not include individual records; do not invent them or publish visitors' private text.
 
+<!-- CAPSTONE SANITIZED LOG START -->
+**Eleven actual sanitized JSONL entries from the local before trials (ten successes and one rejected input):**
+
+~~~json
+{"timestamp": "2026-11-16T00:58:10.251102+00:00", "input": {"synthetic_example": "Cooking classes should be required in every school.", "length": 51, "sha256": "512166af92a3808a340b77c7eba349b2e0d6ed458fc27a0c00731adbacaec9a7"}, "status": "ok", "output": {"label": "proposal", "confidence": 0.31017425656318665}, "error": null, "duration_ms": 21.82}
+{"timestamp": "2026-11-16T00:58:10.329390+00:00", "input": {"synthetic_example": "I enjoy rainy walks more than sunny afternoons.", "length": 47, "sha256": "8dcebd770f05f548f5d36470a7316ab87e3a3720a3276ff76953d79de8bacf83"}, "status": "ok", "output": {"label": "personal_preference", "confidence": 0.3917863965034485}, "error": null, "duration_ms": 21.956}
+{"timestamp": "2026-11-16T00:58:10.394690+00:00", "input": {"synthetic_example": "Public transit should run more frequently on weekends.", "length": 54, "sha256": "d315b4a71ca8cd54fbaf2d6e3067832ab4db5c452e857130e67b9e2c9c503ed9"}, "status": "ok", "output": {"label": "proposal", "confidence": 0.32301363348960876}, "error": null, "duration_ms": 17.304}
+{"timestamp": "2026-11-16T00:58:10.432285+00:00", "input": {"synthetic_example": "I like having breakfast food for dinner.", "length": 40, "sha256": "25068e9ecbedf8ed3b688c85058ca555092fd2ea39e3cf37cb9de9b2daf75873"}, "status": "ok", "output": {"label": "personal_preference", "confidence": 0.43332743644714355}, "error": null, "duration_ms": 16.751}
+{"timestamp": "2026-11-16T00:58:10.505968+00:00", "input": {"synthetic_example": "Movies are getting unnecessarily long.", "length": 38, "sha256": "17f6cbbef3c7afb9f15356914d3e680f9b3e8e966437e21b57d5999ec6ab6527"}, "status": "ok", "output": {"label": "personal_preference", "confidence": 0.3374980688095093}, "error": null, "duration_ms": 21.271}
+{"timestamp": "2026-11-16T00:58:10.574047+00:00", "input": {"synthetic_example": "Remote work policies should offer flexible hours.", "length": 49, "sha256": "d89b4ef1b1a285a49a5e0312c9c265557d3f22dbef433ba718be183e468f597b"}, "status": "ok", "output": {"label": "proposal", "confidence": 0.3104518949985504}, "error": null, "duration_ms": 22.628}
+{"timestamp": "2026-11-16T00:58:10.638447+00:00", "input": {"synthetic_example": "People overrate expensive coffee.", "length": 33, "sha256": "c1afddeda8efe874008ed41f00de626623307cdf14abef56c3b7bcda1142151e"}, "status": "ok", "output": {"label": "personal_preference", "confidence": 0.30924493074417114}, "error": null, "duration_ms": 15.921}
+{"timestamp": "2026-11-16T00:58:10.693222+00:00", "input": {"synthetic_example": "I prefer handwritten notes to digital notebooks.", "length": 48, "sha256": "113afe11c80c5a40781bcf960b760aefa058a7ea1cf3567edd1c5b705434c078"}, "status": "ok", "output": {"label": "personal_preference", "confidence": 0.3717629611492157}, "error": null, "duration_ms": 18.62}
+{"timestamp": "2026-11-16T00:58:10.749001+00:00", "input": {"synthetic_example": "School lunches should offer more vegetarian options.", "length": 52, "sha256": "ab221cbc34ea4eb0350cccfb3146fb8b8a6cdd206eb09bdaf52ca7587a485b3d"}, "status": "ok", "output": {"label": "proposal", "confidence": 0.30931127071380615}, "error": null, "duration_ms": 19.875}
+{"timestamp": "2026-11-16T00:58:10.816895+00:00", "input": {"synthetic_example": "Video games can help people develop problem-solving skills.", "length": 59, "sha256": "573d373c7003a383d3dbb7322ef0c552c4472ead8fd89946ef4322b12b241192"}, "status": "ok", "output": {"label": "proposal", "confidence": 0.29316020011901855}, "error": null, "duration_ms": 20.216}
+{"timestamp": "2026-11-16T00:58:10.853550+00:00", "input": {"synthetic_example": "[synthetic empty or non-string input]", "length": 0, "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"}, "status": "invalid_input", "output": null, "error": "Input rejected by validation", "duration_ms": 0.07}
+~~~
+
+Each input was matched to a fixed synthetic test string by SHA-256. Private or unmatched visitor text was not published.
+<!-- CAPSTONE SANITIZED LOG END -->
+
 **What It Costs**
 
 This uses local or hosted CPU inference; it does not require a paid inference API. `measure_extension.py` measures three batches of ten warm predictions and reports mean **wall-clock seconds per request**, excluding the initial model download/load. Cost must be calculated from those real measurements.
@@ -815,11 +835,30 @@ For any miss, name the failing stage (validation, model, latency, or log writer)
 
 **The Improvement**
 
-**Selected improvement to test:** Limit CPU inference to one PyTorch thread using the new optional `TAKEMETER_TORCH_THREADS=1` setting. The first three trials passed every criterion, but the five-second warm-response target is loose, so this is a targeted performance experiment on short text inputs. CPU thread overhead might decrease or increase latency depending on the computer; only the after-run measurements can establish the result. Keep the model, test inputs, and acceptance targets unchanged. In PowerShell, set `$env:TAKEMETER_TORCH_THREADS="1"` and run `python measure_extension.py --model ./deployment_model --phase after`. The after-run results are **not available yet**. Then run `python publish_capstone_evidence.py --include-after` locally to insert the real log evidence, three-trial table, and comparison.
+The original five criteria all passed, but the five-second warm response target was loose relative to the measured average. The one tested improvement is optional single-thread CPU inference using TAKEMETER_TORCH_THREADS=1. This may help or hurt depending on CPU hardware; the same trained checkpoint, fixed test inputs, and criteria were retained.
+
+**After improvement — measured three-trial results:**
+
+| Criterion | Target | Trial 1 | Trial 2 | Trial 3 | Verdict |
+|---|---|---|---|---|---|
+| Valid predictions | 10/10 | 10/10 | 10/10 | 10/10 | MET |
+| Invalid inputs rejected | 6/6 | 6/6 | 6/6 | 6/6 | MET |
+| Structured records | 16/16 | 16/16 | 16/16 | 16/16 | MET |
+| Predictions under 5 seconds | >=9/10 | 10/10 | 10/10 | 10/10 | MET |
+| Matches direct model | 10/10 | 10/10 | 10/10 | 10/10 | MET |
+
+| Measure | Before | After | Difference |
+|---|---:|---:|---:|
+| Warm mean seconds/request | 0.0228 | 0.0738 | +50.98 ms |
+| Seconds per 100 warm requests | 2.28 | 7.38 | +5.10 s |
+
+The change was **slower** on average. These are measured local wall-clock times, not a hosting bill.
+
+All original criteria were met in the after run.
 
 **What's Still Broken**
 
-The reported local before-improvement trial completed, but the trained model weights remain excluded from public GitHub, as intended. **Hosting is not yet deployed or measured.** The submission still needs at least ten actual, sanitized log lines in **Instrumentation**, an after-improvement three-trial run following one targeted change, and verification of the free hosted URL. Streamlit's ephemeral filesystem also cannot be relied upon for permanent public-site logs.
+The reported local before-improvement trial completed, but the trained model weights remain excluded from public GitHub, as intended. **Hosting is not yet deployed or measured.** The required synthetic log excerpt and three after trials are now documented. The free hosted URL still needs verification. Streamlit's ephemeral filesystem also cannot be relied upon for permanent public-site logs.
 
 For any criterion that remains MISSED after the improvement, document what to do next and why testing stopped; if all five are met, identify a target worth tightening. Any deployment failure must be recorded rather than marked as success.
 
