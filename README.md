@@ -783,7 +783,7 @@ After exporting the trained checkpoint into `deployment_model/`, install depende
 
 All user submissions pass through `takemeter_inference.classify_opinion()`, which writes one JSONL event for success or failure. Each record includes `timestamp`, `input` (character length and SHA-256; no raw visitor text), `model`, `status`, `output`, `error`, and `duration_ms`. Local/private logs are stored in `logs/`, which Git ignores. A public Streamlit app's local logs may be lost on restart.
 
-**Before-improvement logging result (reported from the local run):** Structured records passed **16/16** in each of the three trials. The log file is `logs/before_trial_events.jsonl`. Its contents are intentionally excluded from GitHub. **Still needed for the submission:** paste at least ten actual, sanitized JSONL entries from this file into this section, including one rejected input or failed run. The summary alone does not include individual records; do not invent them or publish visitors' private text.
+**Before-improvement logging result (reported from the local run):** Structured records passed **16/16** in each of the three trials. The log file is `logs/before_trial_events.jsonl`. Its contents are intentionally excluded from GitHub. The eleven actual, sanitized synthetic-test JSONL entries below satisfy the requested excerpt (ten successful classifications and one rejected input). The private complete log remains outside GitHub; no visitor opinions or credentials are included.
 
 <!-- CAPSTONE SANITIZED LOG START -->
 **Eleven actual sanitized JSONL entries from the local before trials (ten successes and one rejected input):**
@@ -835,7 +835,7 @@ For any miss, name the failing stage (validation, model, latency, or log writer)
 
 **The Improvement**
 
-The original five criteria all passed, but the five-second warm response target was loose relative to the measured average. The one tested improvement is optional single-thread CPU inference using TAKEMETER_TORCH_THREADS=1. This may help or hurt depending on CPU hardware; the same trained checkpoint, fixed test inputs, and criteria were retained.
+**Why I made this change:** The first three trials passed all five acceptance criteria, but the five-second response-time target was much higher than the measured 0.0228-second warm average. I wanted to see whether reducing CPU threading overhead would make short, single-opinion predictions faster without changing the fine-tuned model or its classifications. I added an optional `TAKEMETER_TORCH_THREADS` setting and tested it at `1` using the same model, the same ten valid and six invalid inputs, and three trials. The hypothesis was that a small batch of text might run more efficiently with fewer threads.
 
 **After improvement — measured three-trial results:**
 
@@ -852,15 +852,13 @@ The original five criteria all passed, but the five-second warm response target 
 | Warm mean seconds/request | 0.0228 | 0.0738 | +50.98 ms |
 | Seconds per 100 warm requests | 2.28 | 7.38 | +5.10 s |
 
-The change was **slower** on average. These are measured local wall-clock times, not a hosting bill.
+**What happened and why it did not help:** The change made performance worse. Mean warm wall time increased from **0.0228 seconds** to **0.0738 seconds** per prediction, about **3.2 times slower** (roughly 51 milliseconds more per request). At 100 similar requests per day, that projects to **7.38 seconds** of cumulative warm inference time instead of **2.28 seconds**. My likely explanation is that, on the CPU used for these local tests, PyTorch benefited more from running model operations across multiple threads than it lost to thread-management overhead. Forcing one thread therefore removed useful parallelism. I did not separately profile CPU operations, so this is a hypothesis supported by the timings, not a proven root cause. All five acceptance criteria still passed in every after trial, including the original under-five-seconds target; the performance *optimization* failed, not the functionality or the acceptance tests. These figures measure local wall-clock time, not an actual cloud hosting bill.
 
-All original criteria were met in the after run.
+**What I would do next:** I would leave `TAKEMETER_TORCH_THREADS` unset so the app uses PyTorch's normal threading behavior, then benchmark several thread counts (for example, 2 and 4) against the default with the same inputs, multiple repetitions, and a consistent machine workload. I would separately measure cold-start/model-load time, longer opinions, and memory use before choosing a deployment configuration. I would also tighten the current five-second warm-response criterion—for example, testing whether at least 9 of 10 predictions finish within 100 milliseconds on the same hardware—because all existing trials easily passed the broader limit. Any new threshold would need a fresh measurement; I would not claim it has already passed.
 
 **What's Still Broken**
 
-The reported local before-improvement trial completed, but the trained model weights remain excluded from public GitHub, as intended. **Hosting is not yet deployed or measured.** The required synthetic log excerpt and three after trials are now documented. The free hosted URL still needs verification. Streamlit's ephemeral filesystem also cannot be relied upon for permanent public-site logs.
-
-For any criterion that remains MISSED after the improvement, document what to do next and why testing stopped; if all five are met, identify a target worth tightening. Any deployment failure must be recorded rather than marked as success.
+The trained model weights remain excluded from public GitHub, as intended, and **free Streamlit hosting is not yet deployed or measured**. The required sanitized synthetic log excerpt and three before/after trials are documented, but live hosting still needs its own browser test, URL, and operational verification. Streamlit's ephemeral local filesystem also cannot guarantee durable hosted logs. None of the five acceptance criteria was missed in the measured trials; the remaining performance weakness is that a 5-second warm-latency target does not distinguish a 22.8-millisecond request from a 73.8-millisecond request. A tighter, hardware-specific warm-latency target and explicit cold-start measurement would make the next round more informative.
 
 **How I Used AI**
 
